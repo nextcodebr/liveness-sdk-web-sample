@@ -18,9 +18,7 @@ Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-
 
 `<script src="dist/liveness.js"></script>`
 
-2. Com a apikey, obter o JWT para repassar para o Liveness:
-`const apiKey = "5ea2dac171cb6d71e7cbfffb:yaGmMPV7v1Hmhlf5ptmSWMYs";
-        const jwt = await getJWT(apiKey);`
+2. Com a apikey, obter o JWT para repassar para o Liveness
 3. Definir qual elemento da DOM terá a câmera injetada pela biblioteca 
 4. Configurar a Liveness com o token recebido
 5. Fazer demais configurações:
