@@ -24,6 +24,7 @@ Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-
 5. Fazer demais configurações:
 
 `
+
       const config = {
 
           width: 720, // largura de exibição da câmera
