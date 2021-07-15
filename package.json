@@ -1,0 +1,28 @@
+{
+  "name": "liveness-sdk-web-sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config=webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nextcodebr/liveness-sdk-web-sample.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nextcodebr/liveness-sdk-web-sample/issues"
+  },
+  "homepage": "https://github.com/nextcodebr/liveness-sdk-web-sample#readme",
+  "dependencies": {
+    "webpack": "^5.44.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "babel-loader": "^8.2.2",
+    "webpack-cli": "^4.7.2"
+  }
+}
