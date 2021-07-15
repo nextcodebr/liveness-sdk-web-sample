@@ -16,14 +16,15 @@ Detecção e padronização de fotos da face
 Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-sdk-web-sample/blob/master/sample.html)
 1. Referenciar a bibioteca liveness-web na página
 
-`<script src="dist/liveness.js"></script>`
+`<script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/liveness.js"></script>`
 
 2. Com a apikey, obter o JWT para repassar para o Liveness
 3. Definir qual elemento da DOM terá a câmera injetada pela biblioteca 
 4. Configurar a Liveness com o token recebido
 5. Fazer demais configurações:
 
-`const config = {
+`
+      const config = {
 
           width: 720, // largura de exibição da câmera
 

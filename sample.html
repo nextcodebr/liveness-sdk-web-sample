@@ -4,13 +4,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sample Liveness Web</title>
-    <script src="https://raw.githubusercontent.com/nextcodebr/liveness-sdk-web-sample/master/dist/liveness.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/liveness.js"></script>
   </head>
   <body>
     <div id="video-wrapper"></div>
     <script>
       async function start() {
-        const apiKey = "<put your api key here>";
+        const apiKey = "<put your apikey here>";
         const jwt = await getJWT(apiKey);
 
         const config = {
