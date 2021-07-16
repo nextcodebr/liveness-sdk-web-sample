@@ -38,17 +38,18 @@ class Liveness {
 
   async loadFaceApi () {
     const script = document.createElement('script')
-    script.src = `${this.faceapiPath}/face-api.min.js`
+    const faceJS = `${this.faceapiPath}/face-api.min.js`
+    script.src = faceJS
     document.head.append(script)
     return this
   }
   async loadFaceApiModels () {
     setTimeout(async () => {
       this.faceapi = faceapi
-      await this.faceapi.nets.tinyFaceDetector.loadFromUri(`${this.faceapiPath}/`)
-      await this.faceapi.nets.faceLandmark68Net.loadFromUri(`${this.faceapiPath}/`)
-      await this.faceapi.nets.faceRecognitionNet.loadFromUri(`${this.faceapiPath}/`)
-      await this.faceapi.nets.faceExpressionNet.loadFromUri(`${this.faceapiPath}/`)
+      await this.faceapi.nets.tinyFaceDetector.loadFromUri(this.faceapiPath)
+      await this.faceapi.nets.faceLandmark68Net.loadFromUri(this.faceapiPath)
+      await this.faceapi.nets.faceRecognitionNet.loadFromUri(this.faceapiPath)
+      await this.faceapi.nets.faceExpressionNet.loadFromUri(this.faceapiPath)
     }, 100)
     return this
   }
