@@ -39,6 +39,7 @@ class Liveness {
   async loadFaceApi () {
     const script = document.createElement('script')
     const faceJS = `${this.faceapiPath}/face-api.min.js`
+    console.log(faceJS)
     script.src = faceJS
     document.head.append(script)
     return this
