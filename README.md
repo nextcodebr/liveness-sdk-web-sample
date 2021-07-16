@@ -17,11 +17,11 @@ Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-
 
 `<script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/liveness.js"></script>`
 
-1. Apontar a pasta que os modelos e o faceapi foram salvos em `configuration.faceapiPath`
-2. Com a sua apikey, obter o JWT para repassar para o Liveness
-3. Configurar a Liveness com o token recebido `configuration.token`
-4. Definir qual elemento da DOM terá a câmera injetada pela biblioteca 
-5. Fazer demais configurações:
+2. Apontar a pasta que os modelos e o faceapi foram salvos em `configuration.faceapiPath`
+3. Com a sua apikey, obter o JWT para repassar para o Liveness
+4. Configurar a Liveness com o token recebido `configuration.token`
+5. Definir qual elemento da DOM terá a câmera injetada pela biblioteca 
+6. Fazer demais configurações:
 
 `const configuration = {
 
