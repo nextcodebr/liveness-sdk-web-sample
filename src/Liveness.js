@@ -45,10 +45,10 @@ class Liveness {
   async loadFaceApiModels () {
     setTimeout(async () => {
       this.faceapi = faceapi
-      await this.faceapi.nets.tinyFaceDetector.loadFromUri(`${this.faceapiPath}`)
-      await this.faceapi.nets.faceLandmark68Net.loadFromUri(`${this.faceapiPath}`)
-      await this.faceapi.nets.faceRecognitionNet.loadFromUri(`${this.faceapiPath}`)
-      await this.faceapi.nets.faceExpressionNet.loadFromUri(`${this.faceapiPath}`)
+      await this.faceapi.nets.tinyFaceDetector.loadFromUri(`${this.faceapiPath}/`)
+      await this.faceapi.nets.faceLandmark68Net.loadFromUri(`${this.faceapiPath}/`)
+      await this.faceapi.nets.faceRecognitionNet.loadFromUri(`${this.faceapiPath}/`)
+      await this.faceapi.nets.faceExpressionNet.loadFromUri(`${this.faceapiPath}/`)
     }, 100)
     return this
   }
