@@ -41,7 +41,9 @@ Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-
 Após a configuração, instanciar o Liveness:
 
 `const videoWrapper = document.getElementById("video-wrapper");`
+
 `const liveness = new Liveness(videoWrapper, config);`
 
 Iniciar:
+
 `liveness.start();`
