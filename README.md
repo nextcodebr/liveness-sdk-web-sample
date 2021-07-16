@@ -23,7 +23,8 @@ Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-
 5. Definir qual elemento da DOM terá a câmera injetada pela biblioteca 
 6. Fazer demais configurações:
 
->const configuration = {
+`const configuration = {
+
           width: 720, // largura de exibição da câmera
           isDebug: false,
           token: jwt,
@@ -33,12 +34,14 @@ Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-
           isShowPreview: true, // exibir um preview da foto que será enviada
           errorCallback: error, // metodo de callback em caso de erro
           successCallback: success, // metodo de callback em caso de sucesso
+        
         };
+    `
 
 Após a configuração, instanciar o Liveness:
 
-`const videoWrapper = document.getElementById("video-wrapper"); // obter elemento na tela onde o liveness será injetado`
-`const liveness = new Liveness(videoWrapper, config); // instancia o liveness`
+`const videoWrapper = document.getElementById("video-wrapper");`
+`const liveness = new Liveness(videoWrapper, config);`
 
 Iniciar:
 `liveness.start();`
