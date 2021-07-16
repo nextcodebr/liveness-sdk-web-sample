@@ -1,5 +1,4 @@
 "use strict";
-
 class Liveness {
   constructor (videoWrapper, config) {
     config.height = Math.floor(config.width * 0.7778)
@@ -8,7 +7,6 @@ class Liveness {
     this.token = config.token
     this.videoWrapper = videoWrapper
     this.faceapiPath = config.faceapiPath
-    this.faceapiModels = config.faceapiModels
     this.isShowPreview = config.isShowPreview
     this.errorCallback = config.errorCallback
     this.successCallback = config.successCallback
@@ -40,17 +38,17 @@ class Liveness {
 
   async loadFaceApi () {
     const script = document.createElement('script')
-    script.src = this.faceapiPath
+    script.src = `${this.faceapiPath}/face-api.min.js`
     document.head.append(script)
     return this
   }
   async loadFaceApiModels () {
     setTimeout(async () => {
       this.faceapi = faceapi
-      await this.faceapi.nets.tinyFaceDetector.loadFromUri(this.faceapiModels)
-      await this.faceapi.nets.faceLandmark68Net.loadFromUri(this.faceapiModels)
-      await this.faceapi.nets.faceRecognitionNet.loadFromUri(this.faceapiModels)
-      await this.faceapi.nets.faceExpressionNet.loadFromUri(this.faceapiModels)
+      await this.faceapi.nets.tinyFaceDetector.loadFromUri(this.faceapiPath)
+      await this.faceapi.nets.faceLandmark68Net.loadFromUri(this.faceapiPath)
+      await this.faceapi.nets.faceRecognitionNet.loadFromUri(this.faceapiPath)
+      await this.faceapi.nets.faceExpressionNet.loadFromUri(this.faceapiPath)
     }, 100)
     return this
   }

@@ -8,7 +8,7 @@ module.exports = {
     entry: "/src/Liveness.js",
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "liveness.js",
+        filename: "liveness.min.js",
         library: 'Liveness'
     },
     module: {
