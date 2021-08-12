@@ -12,7 +12,7 @@ class Liveness {
     this.successCallback = config.successCallback
     this.livenessUrlBase = config.livenessUrlBase
     this.displaySize = { width: config.width, height: config.height }
-    this.livenessConfirmEndpoint = config.livenessConfirmEndpoint || '/liveness'
+    this.livenessConfirmEndpoint = config.livenessConfirmEndpoint || '/liveness/v2'
   }
   async start () {
     await this.loadFaceApi()
