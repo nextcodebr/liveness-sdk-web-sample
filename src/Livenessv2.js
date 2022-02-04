@@ -2,7 +2,6 @@
 class Liveness {
   constructor (videoWrapper, config) {
     config.height = Math.floor(config.width * 0.7778)
-
     this.config = config
     this.token = config.token
     this.videoWrapper = videoWrapper
@@ -143,11 +142,11 @@ class Liveness {
     this.maskEllipse.setAttribute('style', 'display: block;')
     
     const frameBox = {
-      width: Math.floor(this.config.width / 3.6),
-      height: Math.floor(this.config.height / 2)
+      width: Math.floor(this.config.width * .52),
+      height: Math.floor(this.config.height * .92)
     }
     frameBox.left = Math.floor((canvas.width / 2) - (frameBox.width / 2))
-    frameBox.top = Math.floor((canvas.height / 2) - (frameBox.height / 1.65))
+    frameBox.top = Math.floor((canvas.height - frameBox.height) / 2.25)
     const eyesOutter = {
       width: Math.floor((frameBox.width * 0.8)),
       height: Math.floor((frameBox.height / 5))
