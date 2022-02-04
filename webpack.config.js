@@ -3,7 +3,6 @@ const path = require('path')
 const webpack = require('webpack');
 
 module.exports = (env) => {
-    console.log(env)
     const entryVersion = env.version === 'v2'
         ? '/src/Livenessv2.js'
         : '/src/Liveness.js'
