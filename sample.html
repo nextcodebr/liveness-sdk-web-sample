@@ -4,13 +4,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sample Liveness Web</title>
-    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/liveness.js"></script>
+    <script src="dist/Liveness.js"></script>
   </head>
   <body>
     <div id="video-wrapper"></div>
     <script>
       async function start() {
-        const apiKey = "<your apykey>";
+        const apiKey = "5ea2dac171cb6d71e7cbfffb:yaGmMPV7v1Hmhlf5ptmSWMYs";
         const jwt = await getJWT(apiKey);
 
         const config = {
@@ -19,8 +19,8 @@
           token: jwt,
           faceapiPath: "/libs", // caminho para a faceapi e os modelos
           livenessUrlBase: "https://api-homolog.nxcd.app", // endpoint da api liveness
-          livenessConfirmEndpoint: "", // opcional - default: /liveness/v2
-          isShowPreview: false, // exibir um preview da foto que será enviada
+          livenessConfirmEndpoint: "", // opcional - default: /liveness
+          isShowPreview: true, // exibir um preview da foto que será enviada
           errorCallback: error, // metodo de callback em caso de erro
           successCallback: success, // metodo de callback em caso de sucesso
         };

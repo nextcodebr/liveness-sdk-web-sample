@@ -2,12 +2,20 @@
 const path = require('path')
 const webpack = require('webpack');
 
-module.exports = {
+module.exports = (env) => {
+    console.log(env)
+    const entryVersion = env.version === 'v2'
+        ? '/src/Livenessv2.js'
+        : '/src/Liveness.js'
+    const pathVersion = env.version === 'v2'
+        ? 'dist/v2'
+        : 'dist'
+    return {
     mode: 'production',
     devtool: 'source-map',
-    entry: "/src/Liveness.js",
+    entry: entryVersion,
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, pathVersion),
         filename: "liveness.js",
         library: 'Liveness'
     },
@@ -19,5 +27,6 @@ module.exports = {
               use: ['babel-loader'],
           }
       ]
-    },
+    }
+    }
 };
