@@ -134,9 +134,14 @@ class Liveness {
     const canvas = this.faceapi.createCanvasFromMedia(this.video)
 
     canvas.style.position = 'absolute'
+    canvas.style.left = 0
     canvas.style.top = 8
 
-    document.body.append(canvas)
+    canvas.style.width = this.videoWrapper.style.width
+    canvas.style.height = this.videoWrapper.style.height
+
+    this.videoWrapper.append(canvas)
+
     this.faceapi.matchDimensions(canvas, this.displaySize)
     this.svgMask.setAttribute('style', 'display: block; position:absolute; top: 0; left: 0;')
     this.maskEllipse.setAttribute('style', 'display: block;')
