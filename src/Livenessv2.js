@@ -147,22 +147,22 @@ class Liveness {
     this.maskEllipse.setAttribute('style', 'display: block;')
     
     const frameBox = {
-      width: Math.floor(this.config.width * .52),
-      height: Math.floor(this.config.height * .92)
+      width: Math.floor(this.config.width * .515),
+      height: Math.floor(this.config.height * .922)
     }
-    frameBox.left = Math.floor((canvas.width / 2) - (frameBox.width / 2))
+    frameBox.left = Math.floor((canvas.width / 1.95) - (frameBox.width / 1.95))
     frameBox.top = Math.floor((canvas.height - frameBox.height) / 2.25)
     const eyesOutter = {
       width: Math.floor((frameBox.width * 0.8)),
       height: Math.floor((frameBox.height / 5))
     }
-    eyesOutter.left = Math.floor((frameBox.left + (frameBox.width / 2) - (eyesOutter.width / 2)))
+    eyesOutter.left = Math.floor((frameBox.left + (frameBox.width / 1.95) - (eyesOutter.width / 1.95)))
     eyesOutter.top = Math.floor(frameBox.top + (frameBox.height * 0.4))
     const eyesInner = {
-      width: Math.floor((frameBox.width * 0.6)),
+      width: Math.floor((frameBox.width * 0.68)),
       height: Math.floor((frameBox.height / 5))
     }
-    eyesInner.left = Math.floor((frameBox.left + (frameBox.width / 2) - (eyesInner.width / 2)))
+    eyesInner.left = Math.floor((frameBox.left + (frameBox.width / 1.96) - (eyesInner.width / 1.96)))
     eyesInner.top = Math.floor(frameBox.top + (frameBox.height * 0.4))
 
     const ctx = canvas.getContext('2d')
@@ -329,7 +329,7 @@ class Liveness {
   
     ctx.beginPath()
     ctx.lineWidth = '2'
-    ctx.strokeStyle = 'blue'
+    ctx.strokeStyle = 'yellow'
     ctx.rect(eyesInner.left, eyesInner.top, eyesInner.width, eyesInner.height)
     ctx.stroke()
   
