@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config=webpack.config.js",
-    "buildv2": "webpack --config=webpack.config.js --env version=v2"
+    "buildv2": "webpack --config=webpack.config.js --env version=v2",
+    "buildv3": "webpack --config=webpack.config.js --env version=v3"
   },
   "repository": {
     "type": "git",

@@ -2,13 +2,33 @@
 const path = require('path')
 const webpack = require('webpack');
 
+function version (vNumber) {
+    switch (vNumber) {
+        case 'v2':
+            return {
+                js: '/src/Livenessv2.js',
+                path: 'dist/v2'
+            }
+        case 'v3':
+            return {
+                js: '/src/Livenessv3.js',
+                path: 'dist/v3'
+            }
+        
+        default:
+            return {
+                js: '/src/Liveness.js',
+                path: 'dist'
+            }
+    }
+}
+
 module.exports = (env) => {
-    const entryVersion = env.version === 'v2'
-        ? '/src/Livenessv2.js'
-        : '/src/Liveness.js'
-    const pathVersion = env.version === 'v2'
-        ? 'dist/v2'
-        : 'dist'
+    const response = version(env.version)
+
+    const entryVersion = response.js
+    const pathVersion = response.path
+    
     return {
     mode: 'production',
     devtool: 'source-map',
