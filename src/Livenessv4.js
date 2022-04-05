@@ -18,7 +18,7 @@ class Liveness {
     if (!window.faceapi) {
       await this.loadFaceApi()
     } else {
-
+      this.faceapi = window.faceapi
       this.setLiveness()
     }
   }
