@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --config=webpack.config.js",
     "buildv2": "webpack --config=webpack.config.js --env version=v2",
-    "buildv3": "webpack --config=webpack.config.js --env version=v3"
+    "buildv3": "webpack --config=webpack.config.js --env version=v3",
+    "buildv4": "webpack --config=webpack.config.js --env version=v4"
   },
   "repository": {
     "type": "git",
