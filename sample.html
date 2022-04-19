@@ -4,13 +4,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sample Liveness Web</title>
-    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/liveness.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v5/liveness.js"></script>
   </head>
   <body>
     <div id="video-wrapper"></div>
     <script>
       async function start() {
-        const apiKey = "<your apykey>";
+        const apiKey = "<your-api-key>";
         const jwt = await getJWT(apiKey);
 
         const config = {
@@ -20,13 +20,18 @@
           faceapiPath: "/libs", // caminho para a faceapi e os modelos
           livenessUrlBase: "https://api-homolog.nxcd.app", // endpoint da api liveness
           livenessConfirmEndpoint: "", // opcional - default: /liveness
-          isShowPreview: true, // exibir um preview da foto que será enviada
-          errorCallback: error, // metodo de callback em caso de erro
-          successCallback: success, // metodo de callback em caso de sucesso
+          isShowPreview: false, // exibir um preview da foto que será enviada
+          errorCallback: error, // metodo de callback em caso de erro (status !== 200)
+          successCallback: success, // metodo de callback em caso de sucesso (status: 200 com isAlive = true ou false)
+          brightnessControl: 108, // padrão 108 - controla a tolerancia do brilho para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
+          luminanceControl: 23, // padrão 23 - controla a tolerancia da luminância para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
         };
         const videoWrapper = document.getElementById("video-wrapper"); // obter elemento na tela onde o liveness será injetado
-        const liveness = new Liveness(videoWrapper, config); // instancia o liveness
-        liveness.start();
+        window.liveness = new Liveness(videoWrapper, config); // instancia o liveness
+        window.liveness.start();
+
+        // window.liveness.setMinBrightness(x) para setar o brilho mínimo de tolerancia (quanto menor, mais chances de isAlive=false)
+        // window.liveness.setMinLuminance(x) para setar a luminância mínima de tolerancia (quanto menor, mais chances de isAlive=false)
       }
 
       function success(response) {
