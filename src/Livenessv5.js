@@ -795,7 +795,7 @@ class Liveness {
       .then(response => response.json())
       .then(result => {
         if (result?.data) {
-          this.successCallback(result)
+          this.successCallback({...result, base64: this.base64})
           return
         }
 
@@ -804,11 +804,12 @@ class Liveness {
           return
         }
 
-        this.errorCallback(error)
+        this.errorCallback({ error: result?.error, base64: this.base64})
         console.error('error:', result?.error?.message)
 
       })
       .catch(error => {
+        error.base64 = this.base64
         this.errorCallback(error)
       })
       .finally(() => {
