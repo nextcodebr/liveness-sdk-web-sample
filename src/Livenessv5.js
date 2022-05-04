@@ -135,13 +135,17 @@ class Liveness {
   }
   async loadFaceApiModels () {
     setTimeout(async () => {
-      await faceapi.nets.tinyFaceDetector.loadFromUri(this.faceapiPath)
-      await faceapi.nets.faceLandmark68Net.loadFromUri(this.faceapiPath)
-      await faceapi.nets.faceRecognitionNet.loadFromUri(this.faceapiPath)
-      await faceapi.nets.faceExpressionNet.loadFromUri(this.faceapiPath)
-      this.faceapi = faceapi
-      this.setLiveness()
-    }, 1000)
+      Promise.all([
+        window.faceapi.nets.tinyFaceDetector.loadFromUri(this.faceapiPath),
+        window.faceapi.nets.faceLandmark68Net.loadFromUri(this.faceapiPath),
+        window.faceapi.nets.faceRecognitionNet.loadFromUri(this.faceapiPath),
+        window.faceapi.nets.faceExpressionNet.loadFromUri(this.faceapiPath)
+      ]).then(() => {
+        console.log('Models are loaded')
+        this.faceapi = faceapi
+        this.setLiveness()
+      }).catch(e => console.log(e))
+    }, 100)
     return this
   }
 
