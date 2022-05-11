@@ -12,6 +12,7 @@ class Liveness {
     this.token = config.token
     this.videoWrapper = videoWrapper
     this.faceapi = null
+    this.configFrameBox = config.frameBox
 
     const cssOrientationStyle = document.createElement('style')
     cssOrientationStyle.innerText = this.cssOrientationLock()
@@ -126,8 +127,17 @@ class Liveness {
   setMinBrightness (value) {
     this.brightnessControl = value
   }
+
   setMinLuminance (value) {
     this.luminanceControl = value
+  }
+
+  setFrameBoxesWidth (eyesInner, eyesOutter, box) {
+    this.configFrameBox = {
+      eyesInner,
+      eyesOutter,
+      box
+    }
   }
 
   async start () {
@@ -408,22 +418,25 @@ class Liveness {
     this.svgMask.setAttribute('style', 'display: block; position:absolute; top: 0; left: 0;')
     this.maskEllipse.setAttribute('style', 'display: block;')
 
-    const boxesWidth = this.responsiveFrameBoxEyesOutterWidth(window.innerWidth)
+    this.boxesWidth = this.responsiveFrameBoxEyesOutterWidth(window.innerWidth)
+    if (this.configFrameBox) this.boxesWidth = this.configFrameBox
+
+
     const frameBox = {
-      width: Math.floor(this.config.width * boxesWidth.box),
+      width: Math.floor(this.config.width * this.boxesWidth.box),
       height: Math.floor(this.config.height * .922)
     }
     frameBox.left = Math.floor((this.canvas.width / 2) - (frameBox.width / 2))
     frameBox.top = Math.floor( (this.videoWrapper.clientHeight / 2) - (frameBox.height / 2)  )
     this.svgTag.style.marginTop = frameBox.top
     const eyesOutter = {
-      width: Math.floor((frameBox.width * boxesWidth.eyesOutter)),
+      width: Math.floor((frameBox.width * this.boxesWidth.eyesOutter)),
       height: Math.floor((frameBox.height / 5))
     }
     eyesOutter.left = Math.floor((frameBox.left + (frameBox.width / 1.95) - (eyesOutter.width / 1.95)))
     eyesOutter.top = Math.floor(frameBox.top + (frameBox.height * 0.3))
     const eyesInner = {
-      width: Math.floor((frameBox.width * boxesWidth.eyesInner)),
+      width: Math.floor((frameBox.width * this.boxesWidth.eyesInner)),
       height: Math.floor((frameBox.height / 5))
     }
     eyesInner.left = Math.floor((frameBox.left + (frameBox.width / 1.96) - (eyesInner.width / 1.96)))
