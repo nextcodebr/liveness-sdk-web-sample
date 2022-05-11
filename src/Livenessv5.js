@@ -2,10 +2,9 @@
 class Liveness {
 
   constructor (videoWrapper, config) {
-    const HORIZONTAL_PADDING = 20
     const windowWidth = window.innerWidth
     if (config.width >= windowWidth) {
-      config.width = (windowWidth - HORIZONTAL_PADDING)
+      config.width = windowWidth
     }
 
     config.height = Math.floor(config.width * 0.7778)
@@ -19,7 +18,7 @@ class Liveness {
     document.head.appendChild(cssOrientationStyle)
     
     if (config.brightnessControl) this.brightnessControl = config.brightnessControl
-    else this.brightnessControl = 108
+    else this.brightnessControl = 95
 
     if (config.luminanceControl) this.luminanceControl = config.luminanceControl
     else this.luminanceControl = 23
@@ -31,6 +30,97 @@ class Liveness {
     this.livenessUrlBase = config.livenessUrlBase
     this.displaySize = { width: config.width, height: config.height }
     this.livenessConfirmEndpoint = config.livenessConfirmEndpoint || '/liveness/v2'
+
+    const maskStyle = document.createElement('style')
+    maskStyle.innerHTML = `
+      #path.active {
+        stroke: #46E3C3 !important;
+        stroke-width: 10 !important;
+      }
+      #mask-wrapper {
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        transition: all 0.9s ease-in-out;
+        background-color: transparent;
+      }
+
+      #mask-wrapper svg > rect{
+        fill: transparent;
+        mask: url(#svg-mask);
+      }
+
+      #svg-mask{
+        min-height: 100%
+      }
+
+      #svg-mask rect{
+        display: flex;
+        fill: rgba(255, 255, 255, 0.5);
+        min-width: 100%;
+        min-height: 100%;
+      }
+      #mask-path {
+        transition: all 0.7s;
+        transform: translateX(23%) translateY(11%) scale(0.95) scaleX(1.1);
+        stroke: white;
+        stroke-width: 3;
+      }
+      #path {
+        fill: transparent;
+        transition: all 0.3s;
+        transform: translateX(23%) translateY(11%) scale(0.95) scaleX(1.1);
+        stroke: #D02780 !important;
+        stroke-width: 3;
+      }
+      @media screen and (min-width: 280px){
+        #mask-path {
+        }
+      }
+      @media screen and (min-width: 320px){
+        #path {
+          transform: translateX(28%) translateY(14%) scaleX(0.7) scaleY(0.67);
+        }
+      }
+      @media screen and (min-width: 360px){
+        #path {
+          transform: translateX(28.3%) translateY(8%) scaleX(0.8) scaleY(0.85);
+        }
+      }
+      @media screen and (min-width: 375px){
+        #path {
+          transform: translateX(27%) translateY(4%) scaleX(0.9) scaleY(0.9)
+        }
+      }
+      @media screen and (min-width: 390px){
+        #path {
+          transform: translateX(25.5%) translateY(8%) scaleX(1) scaleY(0.9);
+        }
+      }
+      @media screen and (min-width: 393px){
+        #mask-path {
+        }
+      }
+      @media screen and (min-width: 412px){
+        #path {
+          transform: translateX(26.8%) translateY(6%) scaleX(1) scaleY(0.95)
+        }
+      }
+      @media screen and (min-width: 414px){
+        #path {
+          transform: translateX(27.2%) translateY(9%) scaleX(1) scaleY(0.95);
+        }
+      }
+      @media screen and (min-width: 768px){
+        #path, #mask-path {
+          transform: translateX(24%) translateY(3%) scale(2) scaleX(1);
+        }
+      }
+    `
+    document.body.insertAdjacentElement('afterbegin', maskStyle)
   }
 
   setMinBrightness (value) {
@@ -72,8 +162,8 @@ class Liveness {
 
   createCanvasBackground () {
     this.canvasBackground = document.createElement('canvas')
-    this.canvasBackground.width = 720
-    this.canvasBackground.height = 560
+    this.canvasBackground.width = 580
+    this.canvasBackground.height = 530
     this.canvasBackground.style.display = 'none'
   }
 
@@ -141,10 +231,10 @@ class Liveness {
         window.faceapi.nets.faceRecognitionNet.loadFromUri(this.faceapiPath),
         window.faceapi.nets.faceExpressionNet.loadFromUri(this.faceapiPath)
       ]).then(() => {
-        console.log('Models are loaded')
+        console.log('Models were loaded')
         this.faceapi = faceapi
         this.setLiveness()
-      }).catch(e => console.log(e))
+      }).catch(e => e)
     }, 100)
     return this
   }
@@ -181,11 +271,12 @@ class Liveness {
   }
   createVideoElement () {
     this.video = document.createElement('video')
-    this.video.style.width = this.config.width
-    this.video.style.height = this.config.height
+    this.video.style.width = '100%'
+    this.video.style.height = '100%'
     this.video.style.transform = 'scaleX(-1)'
     this.video.setAttribute('muted', true)
     this.video.setAttribute('autoplay', true)
+    this.video.setAttribute('playsinline', '')
     this.videoWrapper.style.position = 'relative'
     this.videoWrapper.style.width = this.config.width
     this.videoWrapper.style.height = this.config.height
@@ -209,76 +300,130 @@ class Liveness {
 
   setVideoMask () {
     this.videoWrapper.insertAdjacentHTML('beforeend', this.createMask())
-    this.maskEllipse = document.getElementById('mask-ellipse')
-    this.svgMask = document.getElementById('svg-mask')
+    this.maskEllipse = document.getElementById('path')
+    this.svgMask = document.getElementById('mask-wrapper')
     this.svgMask.style.width = this.config.width
     this.svgMask.style.height = this.config.height
-
   }
   createMask () {
-    return `<svg
-    id="svg-mask"
-    style="display: none;"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 720 560"
-  >
-    <path
-      id="mask-ellipse"
-      d="M507.5 275C507.5 332.25 490.842 383.977 464.035 421.328C437.225 458.683 400.41 481.5 360 481.5C319.59 481.5 282.775 458.683 255.965 421.328C229.158 383.977 212.5 332.25 212.5 275C212.5 217.75 229.158 166.023 255.965 128.672C282.775 91.3174 319.59 68.5 360 68.5C400.41 68.5 437.225 91.3174 464.035 128.672C490.842 166.023 507.5 217.75 507.5 275Z"
-      stroke="#B40000"
-      stroke-width="5"
-    />
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M21 10C15.4772 10 11 14.4772 11 20V542C11 547.523 15.4771 552 21 552H698C703.523 552 708 547.523 708 542V20C708 14.4772 703.523 10 698 10H21ZM360 481C441.186 481 507 388.771 507 275C507 161.229 441.186 69 360 69C278.814 69 213 161.229 213 275C213 388.771 278.814 481 360 481Z"
-      fill="#000"
-      fill-opacity="0.6"
-    />
-    <rect
-      x="12.5"
-      y="12.5"
-      width="695"
-      height="535"
-      stroke="white"
-      stroke-width="25"
-    />
-  </svg>`
+    return `
+    <div
+      id="mask-wrapper"
+    >
+      <svg id="svg-tag" height="100%" width="100%" >
+       <!-- <defs>
+          <mask id="svg-mask" x="0" y="0" height="100%" width="100%">
+            <rect x="0" y="0" height="100%" width="100%" />
+            <path id="mask-path" d="M90.3388 2.19951L90.4192 2.20821H90.5C111.984 2.20821 130.012 9.83016 142.234 28.4016C154.52 47.0702 161.077 77.0066 158.989 121.926C153.095 155.359 145.385 185.102 133.16 207.538C121.011 229.838 104.476 244.8 80.886 249.101C56.3373 241.868 39.9103 227.275 28.2091 206.302C16.4187 185.169 9.42403 157.551 3.8751 124.41C-1.14749 81.0439 6.83706 49.0057 22.7846 28.5956C38.6991 8.22774 62.7183 -0.786687 90.3388 2.19951Z" fill="black" stroke="#D02780" stroke-width="3"/>
+          </mask>
+        </defs> -->
+        <path id="path" d="M90.3388 2.19951L90.4192 2.20821H90.5C111.984 2.20821 130.012 9.83016 142.234 28.4016C154.52 47.0702 161.077 77.0066 158.989 121.926C153.095 155.359 145.385 185.102 133.16 207.538C121.011 229.838 104.476 244.8 80.886 249.101C56.3373 241.868 39.9103 227.275 28.2091 206.302C16.4187 185.169 9.42403 157.551 3.8751 124.41C-1.14749 81.0439 6.83706 49.0057 22.7846 28.5956C38.6991 8.22774 62.7183 -0.786687 90.3388 2.19951Z" fill="black" stroke="#D02780" stroke-width="3"/>
+        <rect x="0" y="0" height="100%" width="100%" />
+      </svg>
+    </div>
+    `
+  }
+  responsiveFrameBoxEyesOutterWidth (windowWidth) {
+    switch (windowWidth) {
+      case 818:
+        return {
+          eyesInner: 0.74,
+          eyesOutter: 0.78,
+          box: 0.60
+        }
+        break;
+      case 414:
+        return {
+          eyesInner: 0.68,
+          eyesOutter: 0.72,
+          box: 0.55
+        }
+        break;
+      case 412:
+        return {
+          eyesInner: 0.68,
+          eyesOutter: 0.69,
+          box: 0.55
+        }
+        break;
+      case 375:
+        return {
+          eyesInner: 0.67,
+          eyesOutter: 0.69,
+          box: 0.55
+        }
+        break;
+      case 360:
+        return {
+          eyesInner: 0.63,
+          eyesOutter: 0.67,
+          box: 0.55
+        }
+        break;
+      case 320:
+        return {
+          eyesInner: 0.62,
+          eyesOutter: 0.67,
+          box: 0.55
+        }
+        break;
+      case 315:
+        return {
+          eyesInner: 0.74,
+          eyesOutter: 0.78,
+          box: 0.53
+        }
+        break;
+    
+      default:
+        return {
+          eyesInner: 0.74,
+          eyesOutter: 0.8,
+          box: 0.515
+        }
+        break;
+    }
   }
   loop () {
     if (this.video.style.width.includes('%')) {
-      this.displaySize.width = this.video.style.width =this.video.clientWidth
+      this.displaySize.width = this.video.style.width = this.video.clientWidth
+      this.displaySize.height = this.video.style.height = this.video.clientHeight
     }
     this.canvas = this.faceapi.createCanvasFromMedia(this.video)
 
     this.canvas.style.position = 'absolute'
     this.canvas.style.left = 0
-    this.canvas.style.top = 8
+    this.canvas.style.top = 10
 
     this.canvas.style.width = this.videoWrapper.style.width
-    this.canvas.style.height = this.videoWrapper.style.height
+    this.canvas.height = this.videoWrapper.clientHeight
+    this.canvas.style.height = this.videoWrapper.clientHeight
+    this.canvas.style.minHeight = this.videoWrapper.clientHeight
+
+    this.svgTag = document.getElementById('svg-tag')
 
     this.videoWrapper.append(this.canvas)
 
     this.faceapi.matchDimensions(this.canvas, this.displaySize)
     this.svgMask.setAttribute('style', 'display: block; position:absolute; top: 0; left: 0;')
     this.maskEllipse.setAttribute('style', 'display: block;')
-    
+
+    const boxesWidth = this.responsiveFrameBoxEyesOutterWidth(window.innerWidth)
     const frameBox = {
-      width: Math.floor(this.config.width * .515),
+      width: Math.floor(this.config.width * boxesWidth.box),
       height: Math.floor(this.config.height * .922)
     }
     frameBox.left = Math.floor((this.canvas.width / 2) - (frameBox.width / 2))
-    frameBox.top = Math.floor((this.canvas.height - frameBox.height) / 2.25)
+    frameBox.top = Math.floor( (this.videoWrapper.clientHeight / 2) - (frameBox.height / 2)  )
+    this.svgTag.style.marginTop = frameBox.top
     const eyesOutter = {
-      width: Math.floor((frameBox.width * 0.8)),
+      width: Math.floor((frameBox.width * boxesWidth.eyesOutter)),
       height: Math.floor((frameBox.height / 5))
     }
     eyesOutter.left = Math.floor((frameBox.left + (frameBox.width / 1.95) - (eyesOutter.width / 1.95)))
     eyesOutter.top = Math.floor(frameBox.top + (frameBox.height * 0.3))
     const eyesInner = {
-      width: Math.floor((frameBox.width * 0.68)),
+      width: Math.floor((frameBox.width * boxesWidth.eyesInner)),
       height: Math.floor((frameBox.height / 5))
     }
     eyesInner.left = Math.floor((frameBox.left + (frameBox.width / 1.96) - (eyesInner.width / 1.96)))
@@ -373,7 +518,7 @@ class Liveness {
           this.draw(ctx, this.canvas, frameBox, eyesInner, eyesOutter)
           ctx.beginPath()
           ctx.lineWidth = '5'
-          ctx.strokeStyle = 'green'
+          ctx.strokeStyle = '#FFFF00'
           ctx.moveTo(jaw[0].x, jaw[0].y)
           ctx.lineTo(jaw[16].x, jaw[16].y)
           ctx.stroke()
@@ -431,9 +576,8 @@ class Liveness {
           return
         }
 
-
-        this.msg.style = 'display: none;'
         this.activateEllipseMask()
+    
         state.counter += 1
         state.inProgress = false
         if (state.counter >= 2) {
@@ -444,13 +588,13 @@ class Liveness {
         }
       }
       
-    }, 250)
+    }, 150)
   }
   activateEllipseMask () {
-    this.maskEllipse.setAttribute('stroke', '#0F0')
+    this.maskEllipse.classList.add('active')
   }
   deactivateEllipseMask () {
-    this.maskEllipse.setAttribute('stroke', '#F00')
+    this.maskEllipse.classList.remove('active')
   }
   draw (ctx, canvas, frameBox, eyesInner, eyesOutter) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -547,39 +691,48 @@ class Liveness {
     dimensions.top = top + height + 20
     dimensions.left = (left + (width / 2)) - (dimensions.width / 2)
 
-    this.maskEllipse.setAttribute('stroke', '#B40000')
-    this.msg.textContent = message
-    this.msg.style = `
-      left: 50%;
+
+    this.maskEllipse.classList.remove('active')
+    this.msg.innerHTML = ''
+    const elMessage = document.createElement('span')
+    elMessage.textContent = message
+    elMessage.style = 
+    `
       display: flex;
       color: #f3f3f5;
+      z-index: 20;
       font-size: 1.1rem;
       padding: 10px 20px;
-      position: absolute;
       text-align: center;
       align-items: center;
       background: #D02780;
       border-radius: 7px;
       justify-content: center;
-      top: ${dimensions.top}px;
-      transform: translateX(-50%);
       width: ${dimensions.width}px;
       height: ${dimensions.height}px;
       font-family: Prompt, sans-serif;
     `
+    this.msg.style.display = 'flex'
+    this.msg.appendChild(elMessage)
   }
   takePicture (canvas) {
     const context = this.canvasBackground.getContext('2d')
     this.canvasBackground.style.display = 'none;'
+    this.createFlashMask()
     context.drawImage(this.video, 0, 0, this.canvasBackground.width, this.canvasBackground.height)
     this.base64 = this.canvasBackground.toDataURL('image/png')
 
-    if(this.isShowPreview) {
-      this.openPreviewModal()
-    }
-    else {
-      this.confirmPicture()
-    }
+    setTimeout(() => {
+      this.removeFlashMask()
+
+      if(this.isShowPreview) {
+        this.openPreviewModal()
+      }
+      else {
+        this.confirmPicture()
+      }
+      
+    }, 300)
   }
   checkBackground () {
     if (!this.canvasBackground) return
@@ -605,8 +758,33 @@ class Liveness {
       console.table(table)
     }
   }
+  createFlashMask () {
+    const flash = document.createElement('div')
+    flash.style.width = '100%'
+    flash.style.height = '100vh'
+    flash.style.position = 'fixed'
+    flash.style.background = 'white'
+    flash.style.zIndex = 30
+    flash.style.top = 0
+    flash.style.left = 0
+    flash.id = 'flash'
+    document.body.append(flash)
+  }
+  removeFlashMask () {
+    const flash = document.getElementById('flash')
+    flash.remove()
+  }
   createMessageBox () {
     this.msg = document.createElement('div')
+    this.msg.style = `
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      background: transparent;
+      position: absolute;
+      bottom: 0;
+    `
     this.videoWrapper.append(this.msg)
     return this
   }
@@ -728,7 +906,6 @@ class Liveness {
         <style>
         #spinner {
           z-index: 40;
-          align-content: center;
           width: 100%;
           height: 100%;
           display: flex;
@@ -781,6 +958,7 @@ class Liveness {
   }
 
   confirmPicture () {
+    const base64Local = this.base64
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -789,7 +967,7 @@ class Liveness {
       },
       body: JSON.stringify({
         base64: {
-          key: this.base64.replace('data:image/png;base64,', '')
+          key: base64Local.replace('data:image/png;base64,', '')
         }
       })
     }
