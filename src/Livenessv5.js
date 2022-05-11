@@ -346,42 +346,42 @@ class Liveness {
         return {
           eyesInner: 0.68,
           eyesOutter: 0.72,
-          box: 0.55
+          box: 0.6
         }
         break;
       case 412:
         return {
           eyesInner: 0.68,
           eyesOutter: 0.69,
-          box: 0.55
+          box: 0.6
         }
         break;
       case 375:
         return {
           eyesInner: 0.67,
           eyesOutter: 0.69,
-          box: 0.55
+          box: 0.57
         }
         break;
       case 360:
         return {
           eyesInner: 0.63,
           eyesOutter: 0.67,
-          box: 0.55
+          box: 0.57
         }
         break;
       case 320:
         return {
           eyesInner: 0.62,
           eyesOutter: 0.67,
-          box: 0.55
+          box: 0.57
         }
         break;
       case 315:
         return {
           eyesInner: 0.74,
           eyesOutter: 0.78,
-          box: 0.53
+          box: 0.55
         }
         break;
     
