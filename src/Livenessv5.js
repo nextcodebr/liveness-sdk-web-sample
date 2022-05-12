@@ -155,7 +155,6 @@ class Liveness {
     .createModalConfirmation()
     .createVideoElement()
     .startVideo()
-    .createCanvasBackground()
   }
   resetLiveness () {
     this.removeCanvas()
@@ -172,8 +171,16 @@ class Liveness {
 
   createCanvasBackground () {
     this.canvasBackground = document.createElement('canvas')
-    this.canvasBackground.width = 580
-    this.canvasBackground.height = 530
+    const width = this.videoWrapper.clientWidth
+    const height = this.videoWrapper.clientHeight
+    if (window.innerWidth < 720) {
+      this.canvasBackground.width = width * 2
+      this.canvasBackground.height = height * 2
+    } else {
+      this.canvasBackground.width = width
+      this.canvasBackground.height = height
+    }
+
     this.canvasBackground.style.display = 'none'
   }
 
@@ -295,6 +302,7 @@ class Liveness {
     this.video.addEventListener('play', () => {
       this.createMessageBox()
       this.loop()
+      this.createCanvasBackground()
     })
     return this
   }
@@ -890,10 +898,10 @@ class Liveness {
     const image = document.createElement('img')
     image.src = this.base64
     image.style = `
-      max-width: 720px;
-      min-width: 520px;
-      min-height: 360px;
-      max-height: 560px;
+      max-width: ${this.canvasBackground.width};
+      min-width: ${this.canvasBackground.width};
+      min-height: ${this.canvasBackground.height};
+      max-height: ${this.canvasBackground.height};
       object-fit: cover;
       border-radius: 7px;
     `
