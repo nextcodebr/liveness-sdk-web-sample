@@ -243,15 +243,17 @@ class Liveness {
   async loadFaceApiModels () {
     setTimeout(async () => {
       Promise.all([
-        window.faceapi.nets.tinyFaceDetector.loadFromUri(this.faceapiPath),
         window.faceapi.nets.faceLandmark68Net.loadFromUri(this.faceapiPath),
-        window.faceapi.nets.faceRecognitionNet.loadFromUri(this.faceapiPath),
-        window.faceapi.nets.faceExpressionNet.loadFromUri(this.faceapiPath)
-      ]).then(() => {
+        window.faceapi.nets.faceExpressionNet.loadFromUri(this.faceapiPath),
+        window.faceapi.nets.faceRecognitionNet.loadFromUri(this.faceapiPath)
+      ])
+      .then(async () => {
+        await window.faceapi.nets.tinyFaceDetector.loadFromUri(this.faceapiPath)
         console.log('Models were loaded')
         this.faceapi = faceapi
         this.setLiveness()
-      }).catch(e => e)
+      })
+      .catch(e => console.log('errando', e))
     }, 100)
     return this
   }
@@ -329,12 +331,6 @@ class Liveness {
       id="mask-wrapper"
     >
       <svg id="svg-tag" height="100%" width="100%" >
-       <!-- <defs>
-          <mask id="svg-mask" x="0" y="0" height="100%" width="100%">
-            <rect x="0" y="0" height="100%" width="100%" />
-            <path id="mask-path" d="M90.3388 2.19951L90.4192 2.20821H90.5C111.984 2.20821 130.012 9.83016 142.234 28.4016C154.52 47.0702 161.077 77.0066 158.989 121.926C153.095 155.359 145.385 185.102 133.16 207.538C121.011 229.838 104.476 244.8 80.886 249.101C56.3373 241.868 39.9103 227.275 28.2091 206.302C16.4187 185.169 9.42403 157.551 3.8751 124.41C-1.14749 81.0439 6.83706 49.0057 22.7846 28.5956C38.6991 8.22774 62.7183 -0.786687 90.3388 2.19951Z" fill="black" stroke="#D02780" stroke-width="3"/>
-          </mask>
-        </defs> -->
         <path id="path" d="M90.3388 2.19951L90.4192 2.20821H90.5C111.984 2.20821 130.012 9.83016 142.234 28.4016C154.52 47.0702 161.077 77.0066 158.989 121.926C153.095 155.359 145.385 185.102 133.16 207.538C121.011 229.838 104.476 244.8 80.886 249.101C56.3373 241.868 39.9103 227.275 28.2091 206.302C16.4187 185.169 9.42403 157.551 3.8751 124.41C-1.14749 81.0439 6.83706 49.0057 22.7846 28.5956C38.6991 8.22774 62.7183 -0.786687 90.3388 2.19951Z" fill="black" stroke="#D02780" stroke-width="3"/>
         <rect x="0" y="0" height="100%" width="100%" />
       </svg>
