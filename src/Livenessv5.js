@@ -139,6 +139,9 @@ class Liveness {
       box
     }
   }
+  setEyesBoxHeight (pixels) {
+    this.configEyesBoxHeight = pixels
+  }
 
   async start () {
     if (!window.faceapi) {
@@ -433,15 +436,17 @@ class Liveness {
     frameBox.left = Math.floor((this.canvas.width / 2) - (frameBox.width / 2))
     frameBox.top = Math.floor( (this.videoWrapper.clientHeight / 2) - (frameBox.height / 2)  )
     this.svgTag.style.marginTop = frameBox.top
+
+    const height = !!this.configEyesBoxHeight ? (frameBox.height + this.configEyesBoxHeight) : frameBox.height
     const eyesOutter = {
       width: Math.floor((frameBox.width * this.boxesWidth.eyesOutter)),
-      height: Math.floor((frameBox.height / 5))
+      height: Math.floor((height / 5))
     }
     eyesOutter.left = Math.floor((frameBox.left + (frameBox.width / 1.95) - (eyesOutter.width / 1.95)))
     eyesOutter.top = Math.floor(frameBox.top + (frameBox.height * 0.3))
     const eyesInner = {
       width: Math.floor((frameBox.width * this.boxesWidth.eyesInner)),
-      height: Math.floor((frameBox.height / 5))
+      height: Math.floor((height / 5))
     }
     eyesInner.left = Math.floor((frameBox.left + (frameBox.width / 1.96) - (eyesInner.width / 1.96)))
     eyesInner.top = Math.floor(frameBox.top + (frameBox.height * 0.3))
