@@ -43,6 +43,7 @@
         const videoWrapper = document.getElementById("video-wrapper"); // obter elemento na tela onde o liveness será injetado
         window.liveness = new Liveness(videoWrapper, config); // instancia o liveness
         window.liveness.start();
+        // window.liveness.stop(); parar o uso da camera
 
         // window.liveness.setMinBrightness(x) para setar o brilho mínimo de tolerancia (quanto menor, mais chances de isAlive=false)
         // window.liveness.setMinLuminance(x) para setar a luminância mínima de tolerancia (quanto menor, mais chances de isAlive=false)

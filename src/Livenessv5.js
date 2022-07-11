@@ -143,6 +143,12 @@ class Liveness {
     this.configEyesBoxHeight = pixels
   }
 
+  stop () {
+    this.video.pause()
+    const tracks = this.stream.getTracks()
+    tracks.forEach(track => track.stop())
+  }
+
   async start () {
     if (!window.faceapi) {
       await this.loadFaceApi()
@@ -280,9 +286,11 @@ class Liveness {
         video: {          
           width: this.config.width,
           height: this.config.height
+          frameRate: 24
         }
       }).then((stream) => {
         const video = document.querySelector('video')
+        this.stream = stream
         if ("srcObject" in video) {
           video.srcObject = stream
         } else {
