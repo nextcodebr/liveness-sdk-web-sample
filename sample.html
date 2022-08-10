@@ -17,6 +17,11 @@
       *::after {
         box-sizing: inherit;
       }
+      body {
+        display: grid;
+        align-items: center;
+        justify-content: center;
+      }
     </style>
   </head>
   <body>
@@ -27,7 +32,7 @@
         const jwt = await getJWT(apiKey);
 
         const config = {
-          width: 350, // largura de exibição da câmera
+          width: 720, // largura de exibição da câmera
           isDebug: true,
           token: jwt,
           faceapiPath:

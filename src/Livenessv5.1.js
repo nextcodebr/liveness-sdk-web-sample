@@ -342,10 +342,10 @@ class Liveness {
     eyesInner.left = Math.floor((frameBox.left + (frameBox.width / 1.96) - (eyesInner.width / 1.96)))
     eyesInner.top = Math.floor(frameBox.top + (frameBox.height * 0.3))
 
-    this.ellipseMaskTop = ((frameBox.top + frameBox.height) / 2.1)
-    this.ellipseMaskLeft = ((frameBox.left + frameBox.width) / 1.515)
     this.ellipseMaskWidth = eyesInner.height * 1.45
     this.ellipseMaskHeight = eyesInner.width / 1.36
+    this.ellipseMaskTop = ((frameBox.top + frameBox.height) / 2.1)
+    this.ellipseMaskLeft =  (frameBox.left + (this.ellipseMaskWidth * 1.24))
     this.ellipseMaskLineWidth = 2
 
     const ctx = this.canvas.getContext('2d')
@@ -687,19 +687,19 @@ class Liveness {
 
     this.isBackgroundOK = (this.brightness >= this.brightnessControl && this.luminance >= this.luminanceControl)
 
-    // if (this.config.isDebug) {
-    //   const table = {
-    //     brilho: {
-    //       atual: this.brightness,
-    //       'mín aceitável': this.brightnessControl,
-    //     },
-    //     'luminânia': {
-    //       atual: parseFloat(this.luminance.toFixed(2)),
-    //       'mín aceitável': this.luminanceControl
-    //     }
-    //   }
-    //   console.table(table)
-    // }
+    if (this.config.isDebug) {
+      const table = {
+        brilho: {
+          atual: this.brightness,
+          'mín aceitável': this.brightnessControl,
+        },
+        'luminânia': {
+          atual: parseFloat(this.luminance.toFixed(2)),
+          'mín aceitável': this.luminanceControl
+        }
+      }
+      console.table(table)
+    }
   }
   createFlashMask () {
     const flash = document.createElement('div')
