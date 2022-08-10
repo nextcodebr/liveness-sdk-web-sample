@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sample Liveness Web</title>
-    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v5/liveness.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v5.1/liveness.js"></script>
     <style>
       * {
         margin: 0;
@@ -27,11 +27,11 @@
         const jwt = await getJWT(apiKey);
 
         const config = {
-          width: 720, // largura de exibição da câmera
-          isDebug: false,
+          width: 350, // largura de exibição da câmera
+          isDebug: true,
           token: jwt,
           faceapiPath:
-            "https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/libs", // caminho para a faceapi e os modelos
+            "https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/libs/", // caminho para a faceapi e os modelos
           livenessUrlBase: "https://api-homolog.nxcd.app", // endpoint da api liveness
           livenessConfirmEndpoint: "", // opcional - default: /liveness
           isShowPreview: false, // exibir um preview da foto que será enviada

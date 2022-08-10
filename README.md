@@ -34,8 +34,12 @@ Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-
           isShowPreview: true, // exibir um preview da foto que será enviada
           errorCallback: error, // metodo de callback em caso de erro
           successCallback: success, // metodo de callback em caso de sucesso
-        
         };
+  window.liveness.stop(); parar o uso da camera
+
+  window.liveness.setMinBrightness(x) para setar o brilho mínimo de tolerancia (quanto menor, mais chances de isAlive=false)
+  window.liveness.setMinLuminance(x) para setar a luminância mínima de tolerancia (quanto menor, mais chances de isAlive=false)
+  window.liveness.setEyesBoxHeight(200); para setar a altura da caixa dos olhos em pixels (soma ou subtrai da altura padrão)
     `
 
 Após a configuração, instanciar o Liveness:
