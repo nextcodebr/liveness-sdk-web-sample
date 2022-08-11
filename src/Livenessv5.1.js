@@ -342,10 +342,10 @@ class Liveness {
     eyesInner.left = Math.floor((frameBox.left + (frameBox.width / 1.96) - (eyesInner.width / 1.96)))
     eyesInner.top = Math.floor(frameBox.top + (frameBox.height * 0.3))
 
-    this.ellipseMaskWidth = eyesInner.height * 1.45
-    this.ellipseMaskHeight = eyesInner.width / 1.36
-    this.ellipseMaskTop = eyesOutter.top + (eyesOutter.height / 2)
-    this.ellipseMaskLeft =  (frameBox.left + (this.ellipseMaskWidth * 1.24))
+    this.ellipseMaskWidth = eyesInner.height + (eyesInner.height * 0.3)
+    this.ellipseMaskHeight = frameBox.width / 2
+    this.ellipseMaskTop = eyesOutter.top + (eyesOutter.height / 1.4)
+    this.ellipseMaskLeft = eyesOutter.left + (eyesOutter.width / 2)
     this.ellipseMaskLineWidth = 2
 
     const ctx = this.canvas.getContext('2d')
