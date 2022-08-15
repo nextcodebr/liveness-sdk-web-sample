@@ -9,7 +9,8 @@
     "buildv3": "webpack --config=webpack.config.js --env version=v3",
     "buildv4": "webpack --config=webpack.config.js --env version=v4",
     "buildv5": "webpack --config=webpack.config.js --env version=v5",
-    "buildv5.1": "webpack --config=webpack.config.js --env version=v5.1"
+    "buildv5.1": "webpack --config=webpack.config.js --env version=v5.1",
+    "buildv5.2": "webpack --config=webpack.config.js --env version=v5.2"
   },
   "repository": {
     "type": "git",
