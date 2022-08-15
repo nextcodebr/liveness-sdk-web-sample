@@ -43,8 +43,11 @@ Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-
           configEyesBoxHeight: 100, // padrão 100 - setar a altura da caixa dos olhos em pixels (soma ou subtrai da altura padrão)
         };`
 `window.liveness.stop(); parar o uso da camera`
+
 `window.liveness.setMinBrightness(x) para setar o brilho mínimo de tolerancia (quanto menor, mais chances de isAlive=false)`
+
 `window.liveness.setMinLuminance(x) para setar a luminância mínima de tolerancia (quanto menor, mais chances de isAlive=false)`
+
 `window.liveness.setEyesBoxHeight(200); para setar a altura da caixa dos olhos em pixels (soma ou subtrai da altura padrão)`
 
 Após a configuração, instanciar o Liveness:
