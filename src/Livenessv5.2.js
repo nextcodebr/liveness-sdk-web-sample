@@ -176,7 +176,7 @@ class Liveness {
         this.faceapi = faceapi
         this.setLiveness()
       })
-      .catch(e => console.log('errando', e))
+      .catch(e => console.error('error', e))
     }, 100)
     return this
   }
@@ -270,12 +270,7 @@ class Liveness {
 
     this.canvas.style.position = 'absolute'
     this.canvas.style.left = 0
-    this.canvas.style.top = 10
-
-    this.canvas.style.width = this.videoWrapper.style.width
-    this.canvas.height = this.videoWrapper.clientHeight
-    this.canvas.style.height = this.videoWrapper.clientHeight
-    this.canvas.style.minHeight = this.videoWrapper.clientHeight
+    this.canvas.style.top = 0
 
     this.videoWrapper.append(this.canvas)
     this.faceapi.matchDimensions(this.canvas, this.displaySize)
