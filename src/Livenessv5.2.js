@@ -53,6 +53,14 @@ class Liveness {
       box
     }
   }
+  toggleDebug () {
+    this.config.isDebug = !this.config.isDebug
+    if (!this.config.isDebug) {
+      const ctx = this.canvas.getContext('2d')
+      ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    }
+  }
+
   setEyesBoxHeight (pixels) {
     this.configEyesBoxHeight = pixels
   }
