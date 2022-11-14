@@ -833,6 +833,7 @@ class Liveness {
           <div style="color: white"></div>
           <div style="color: white"></div>
         </div>
+
         <style>
         #spinner {
           z-index: 40;
