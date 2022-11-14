@@ -3,12 +3,12 @@ class Liveness {
 
   constructor (videoWrapper, config) {
     const windowWidth = window.innerWidth
+    this.config = config
     if (config.width >= windowWidth) {
       config.width = windowWidth
     }
 
     config.height = Math.floor(config.width * 0.7778)
-    this.config = config
     this.token = config.token
     this.videoWrapper = videoWrapper
     this.faceapi = null
@@ -141,6 +141,11 @@ class Liveness {
     this.checkBrightness()
   }
 
+  isMobile () {
+    const acceptedBrowser = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+    return acceptedBrowser.test(navigator.userAgent)
+  }
+
   checkBrightness () {
     this.brightness = Math.floor(this.brightnessSum / (this.canvasBackground.width * this.canvasBackground.height))
   }
@@ -215,13 +220,17 @@ class Liveness {
         })
       }
     }
-    navigator.mediaDevices.getUserMedia({
-        video: {          
-          width: this.config.width,
-          height: this.config.height,
-          frameRate: 24
-        }
-      }).then((stream) => {
+    const constraints = {
+      video: {  
+        width: this.config.width,
+        height: this.config.height,
+        frameRate: 24
+      }
+    }
+
+    if (this.isMobile()) constraints.video.facingMode.exact = 'user'
+
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
         const video = document.querySelector('video')
         this.stream = stream
         if ("srcObject" in video) {
