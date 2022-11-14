@@ -228,7 +228,7 @@ class Liveness {
       }
     }
 
-    if (this.isMobile()) constraints.video.facingMode = { exact: 'user' } 
+    if (this.isMobile()) constraints.video.facingMode = 'user'
 
     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
         const video = document.querySelector('video')
