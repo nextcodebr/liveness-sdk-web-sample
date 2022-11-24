@@ -13,7 +13,8 @@
     "buildv5.2": "webpack --config=webpack.config.js --env version=v5.2",
     "buildv5.3": "webpack --config=webpack.config.js --env version=v5.3",
     "buildv5.4": "webpack --config=webpack.config.js --env version=v5.4",
-    "buildv5.5": "webpack --config=webpack.config.js --env version=v5.5"
+    "buildv5.5": "webpack --config=webpack.config.js --env version=v5.5",
+    "buildv5.6": "webpack --config=webpack.config.js --env version=v5.6"
   },
   "repository": {
     "type": "git",
