@@ -159,7 +159,7 @@ class Liveness {
   }
 
   checkBrightness () {
-    this.brightness = Math.floor(this.brightnessSum / (this.canvasBackground.width * this.canvasBackground.height))
+    this.brightness = Math.floor(this.brightnessSum / (this.canvasLuminance.width * this.canvasLuminance.height))
   }
 
   sweepBrightness (r, g, b) {
@@ -285,6 +285,7 @@ class Liveness {
             video.src = window.URL.createObjectURL(stream)
           }
           !!this.startCallbackFunction && this.startCallbackFunction()
+
         }).catch(err => console.error(err))
     })
 
@@ -392,18 +393,20 @@ class Liveness {
       this.draw(ctx, this.canvas, frameBox, eyesInner, eyesOutter)
     }
 
+    if (!this.isMobile()) {
+      this.timerBackground = setInterval(() => {
+        this.checkBackground()
+      }, 1000);
+    } else this.isBackgroundOK = true
 
-    const canvasPosition = this.canvas.getBoundingClientRect()
+    
     const state = {
       counter: 0,
       inProgress: false,
       done: false
     }
-
-    this.timerBackground = setInterval(() => {
-      this.checkBackground()
-    }, 3000);
-
+    
+    const canvasPosition = this.canvas.getBoundingClientRect()
     this.timer = setInterval(async () => {
       if (state.inProgress || state.done) {
         return
@@ -540,7 +543,7 @@ class Liveness {
           state.done = true
           this.takePicture()
           clearInterval(this.timer)
-          clearInterval(this.timerBackground)
+          !!this.timerBackground && clearInterval(this.timerBackground)
         }
       }
       
@@ -714,12 +717,14 @@ class Liveness {
     }, 300)
   }
   checkBackground () {
-    if (!this.canvasBackground) return
+    this.canvasLuminance = document.createElement('canvas')
+    const width = this.videoWrapper.clientWidth / 2
+    const height = this.videoWrapper.clientHeight / 2
 
-    const context = this.canvasBackground.getContext('2d')
+    const context = this.canvasLuminance.getContext('2d')
 
-    context.drawImage(this.video, 0, 0, this.canvasBackground.width, this.canvasBackground.height)
-    const pictureData = context.getImageData(0,0,this.canvasBackground.width,this.canvasBackground.height)
+    context.drawImage(this.video, 0, 0, this.canvasLuminance.width, this.canvasLuminance.height)
+    const pictureData = context.getImageData(0,0,this.canvasLuminance.width,this.canvasLuminance.height)
     this.sweepVideo(pictureData.data)
 
     this.isBackgroundOK = (this.brightness >= this.brightnessControl && this.luminance >= this.luminanceControl)
