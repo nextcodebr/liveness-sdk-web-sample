@@ -703,7 +703,7 @@ class Liveness {
     this.createFlashMask()
     context.drawImage(this.video, 0, 0, this.canvasBackground.width, this.canvasBackground.height)
     context.fillStyle = "rgb(71,84,68)"
-    context.fillRect(20, 20, 1, 1)
+    context.fillRect(20, 50, 1, 1)
     context.fillStyle = "rgb(211,190,124)"
     context.fillRect(422, 522, 1, 1)
     const pictureData = context.getImageData(0,0,this.canvasLuminance.width,this.canvasLuminance.height)
