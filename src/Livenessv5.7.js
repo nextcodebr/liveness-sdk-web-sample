@@ -212,7 +212,7 @@ class Liveness {
         (-o-min-device-pixel-ratio: 3/4),\
         (min-resolution: 0.75dppx)"
       if (window.matchMedia(mediaQuery).matches) {
-        return 0.7
+        return 1.5
       }
     } else {
       return 1
