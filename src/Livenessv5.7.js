@@ -988,8 +988,8 @@ class Liveness {
           return
         }
 
-        this.errorCallback({ error: result?.error, base64: this.base64})
-        console.error('error:', result?.error?.message)
+        this.errorCallback({ error: result, base64: this.base64})
+        console.error('error:', result)
 
       })
       .catch(error => {
