@@ -706,7 +706,7 @@ class Liveness {
     context.fillRect(20, 50, 1, 1)
     context.fillStyle = "rgb(211,190,124)"
     context.fillRect(422, 522, 1, 1)
-    const pictureData = context.getImageData(0,0,this.canvasLuminance.width,this.canvasLuminance.height)
+    const pictureData = context.getImageData(0,0,this.canvasBackground.width,this.canvasBackground.height)
     context.putImageData(pictureData, 0, 0)
     this.base64 = this.canvasBackground.toDataURL('image/png')
 
