@@ -784,7 +784,7 @@ class Liveness {
     this.modalWrapper.style = `
     top: 0;
     left: 0;
-    z-index: 10;
+    z-index: 21;
     width: 100%;
     height: 100%;
     display: none;

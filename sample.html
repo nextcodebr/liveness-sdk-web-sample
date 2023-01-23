@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sample Liveness Web</title>
-    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v5.2/liveness.js"></script>
+    <script src="dist/v5.7/liveness.js"></script>
     <style>
       * {
         margin: 0;
@@ -28,22 +28,24 @@
     <div id="video-wrapper"></div>
     <script>
       async function start() {
-        const apiKey = "<your-api-key>";
+        const apiKey =
+          "Apikey 6388165c46ddcb534cf12a21:Dit93HLqVo7hlAUOinga3ZIE";
         const jwt = await getJWT(apiKey);
 
         const config = {
           width: 720, // largura de exibição da câmera
-          isDebug: true,
-          token: jwt,
+          isDebug: false,
+          token:
+            "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjdjOmRjOjg0OjExOjVkOjM5OjRlOjNiOjFiOmE3OmVmOmFmOjk4OjcxOmRkOmQwIn0.eyJpZCI6IjYyMDJiMzUwZDQ3ODc2OTczZDBkYzU1MSIsInNjb3BlcyI6WyJuZXh0aWQuYnVyZWF1cy5iYWNrZ3JvdW5kQ2hlY2tQZXJzb24iLCJuZXh0aWQuYnVyZWF1cy5iYWNrZ3JvdW5kQ2hlY2tDb21wYW55IiwibmV4dGlkLmJ1cmVhdXMubmF0dXJhbFBlcnNvbkJ1cmVhdSIsIm5leHRpZC5jbGFzc2lmaWNhdGlvbnMuY2xhc3NpZnkiLCJuZXh0aWQuZXh0cmFjdGlvbnMucHJvb2ZPZlJlc2lkZW5jZSIsIm5leHRpZC5mYWNlUmVjb2duaXRpb25zLmZhY2VNYXRjaCIsIm5leHRpZC5idXJlYXVzLmZhY2VNYXRjaEFuZERhdGF2YWxpZCIsIm5leHRpZC5leHRyYWN0aW9ucy5mdWxsT2NyIiwibmV4dGlkLmJ1cmVhdXMuZnVsbE9jckFuZERhdGF2YWxpZCIsIm5leHRpZC5idXJlYXVzLmNyZWRpdFNjb3JlIiwibmV4dGlkLmJpb21ldHJpY3MubGl2ZW5lc3MiLCJuZXh0aWQuYXV0aC5qd3QiLCJuZXh0aWQuYnVyZWF1cy52ZWhpY2xlIiwibmV4dGlkLmJ1cmVhdXMuZHJpdmVyc0xpY2Vuc2UiLCJuZXh0aWQuYnVyZWF1cy5yZXN0cmljdGVkTGlzdHMuYWxsTGlzdHMiLCJuZXh0aWQuYnVyZWF1cy5yZXN0cmljdGVkTGlzdHMub25lTGlzdCIsImRvY2JvYXJkLmN1c3RvbWVyLioiLCJuZXh0aWQuYmlvbWV0cmljcy5mYWNlIiwibmV4dGlkLmluZm8ubXlTQSJdLCJkYXRhIjp7fSwiaWF0IjoxNjcyOTUyMTI4LCJleHAiOjE2NzI5NTMwMjgsImF1ZCI6InVybjphcHA6bmV4dGlkIiwiaXNzIjoidXJuOmF1dGhvcml0eTphdXRoZW50aWNhdG9yOmVudjpwcm9kdWN0aW9uIiwic3ViIjoidXJuOnNlcnZpY2UtYWNjb3VudDo2MjAyYjM1MGQ0Nzg3Njk3M2QwZGM1NTEifQ.bUQHd8VEfJPWv0c6IIksvImZcDYFOXUOReyTDAw4gvCCz0VOKVxvncHyMpPW4LkRhpjpzCpszXcwIx6a9199KbCxly7wxXqO0netviodpxUisMTp3WElzRrB8wyy3SzijE-vwC3t21H4wMEfh63w1hYlLZ5nMArH0QvtJEpnVgEAAzroM747t48U_1o27w5qzXElwMY2ze7x-m-0Mc8lNYemMTkN7S6VKQ7eg_04_IaXktcRs-ZXUUQsODTOmH_-XKiIpFZ4fHELAJBnkwwuNKUkG3AtrwcDk0xLhUuEEsqGbKD4D4XV24dnoxu3nToVmVX0mqen-pusM5snkwfRRa5TEHHLkOryeXqrknp88YrZ0v3EdPtreK35j-MaoW3jzZCSA4EFEUTA6KmwwGcuKEnMH0C-gE8BS1oSWr81_9VFBaiB5BQCNh6lYxy5uuQ6Ynzmans5RYCj4YryGFpV_yopS5bT0dlGvDD2C7jEH4mABxn8YgfUZcX-gDrU5eEq7iEhm4foKlnTRXPHdvzqe0DsA1FjGpdXvXG6JFE87z3g1GEIAZqu6-tgJ3tYBxHJ0MFhYLcjozjpnJL8G_RJT0ITIo7djyJdLaysnv9hHf3Xkqb_WdOkhJtxWXHmoR_kDONOzUyNa46yLgQ6sAe-ES6kEa1JUOJeDaBvTeZEQ2A",
           faceapiPath:
             "https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/libs/", // caminho para a faceapi e os modelos
           livenessUrlBase: "https://api-homolog.nxcd.app", // endpoint da api liveness
-          livenessConfirmEndpoint: "", // opcional - default: /liveness
-          isShowPreview: false, // exibir um preview da foto que será enviada
+          livenessConfirmEndpoint: "/liveness/v3", // opcional - default: /liveness
+          isShowPreview: true, // exibir um preview da foto que será enviada
           errorCallback: error, // metodo de callback em caso de erro (status !== 200)
           successCallback: success, // metodo de callback em caso de sucesso (status: 200 com isAlive = true ou false)
-          brightnessControl: 108, // padrão 108 - controla a tolerancia do brilho para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
-          luminanceControl: 23, // padrão 23 - controla a tolerancia da luminância para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
+          brightnessControl: 0, // padrão 108 - controla a tolerancia do brilho para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
+          luminanceControl: 0, // padrão 23 - controla a tolerancia da luminância para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
           ellipseStrokeStyle: "#D02780", // padrão '#D02780' - cor da elipse que encaixa o rosto - pode ser o nome da cor ou hexadecimal
           activatedEllipseStrokeStyle: "#46E3C3", // padrão '#46E3C3' - cor da elipse ao detectar o rosto - pode ser o nome da cor ou hexadecimal
           boxMessageBackgroundColor: "#D02780", // padrão '#D02780' - cor de fundo da caixa de mensagem - pode ser o nome da cor ou hexadecimal
