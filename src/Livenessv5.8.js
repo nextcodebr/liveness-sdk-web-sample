@@ -278,8 +278,11 @@ class Liveness {
 
       navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
           const video = document.querySelector('video')
+
+          if (!video) return
+
           this.stream = stream
-          window.streamLiveness = stream
+          navigator.streamLiveness = stream
           if ("srcObject" in video) {
             video.srcObject = stream
           } else {
