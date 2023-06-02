@@ -3,7 +3,7 @@ class Liveness {
 
   constructor (videoWrapper, config) {
     this.uploadInProgress = 0.00
-    this.transmitVia = 'formData'
+    this.transmitVia = 'b64'
     const windowWidth = window.innerWidth
     this.config = config
     if (config.width >= windowWidth) {

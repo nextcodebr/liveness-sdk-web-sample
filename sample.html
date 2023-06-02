@@ -52,8 +52,8 @@
         };
         const videoWrapper = document.getElementById("video-wrapper"); // obter elemento na tela onde o liveness será injetado
         window.liveness = new Liveness(videoWrapper, config); // instancia o liveness
-        // window.liveness.setUseBase64(); enviar a foto via base64 (padrão formData)
-        // window.liveness.setUseFormData(); enviar a foto via formData (padrão formData)
+        // window.liveness.setUseBase64(); enviar a foto via base64
+        // window.liveness.setUseFormData(); enviar a foto via formData (padrão b64)
         window.liveness.start();
         // window.liveness.stop(); parar o uso da camera
 
