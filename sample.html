@@ -28,13 +28,13 @@
     <div id="video-wrapper"></div>
     <script>
       async function start() {
-        const apiKey = "<your-api-key>";
+        const apiKey = "<apikey>";
         const jwt = await getJWT(apiKey);
 
         const config = {
           width: 720, // largura de exibição da câmera
           isDebug: false,
-          token: "",
+          token: jwt,
           faceapiPath:
             "https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/libs/", // caminho para a faceapi e os modelos
           livenessUrlBase: "https://api-homolog.nxcd.app", // endpoint da api liveness
@@ -52,6 +52,8 @@
         };
         const videoWrapper = document.getElementById("video-wrapper"); // obter elemento na tela onde o liveness será injetado
         window.liveness = new Liveness(videoWrapper, config); // instancia o liveness
+        // window.liveness.setUseBase64(); enviar a foto via base64 (padrão formData)
+        // window.liveness.setUseFormData(); enviar a foto via formData (padrão formData)
         window.liveness.start();
         // window.liveness.stop(); parar o uso da camera
 
