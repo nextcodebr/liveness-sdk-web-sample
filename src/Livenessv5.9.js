@@ -3,7 +3,7 @@ class Liveness {
 
   constructor (videoWrapper, config) {
     this.uploadInProgress = 0.00
-    this.transmitVia = 'b64'
+    this.requestType = 'b64'
     const windowWidth = window.innerWidth
     this.config = config
     if (config.width >= windowWidth) {
@@ -42,11 +42,11 @@ class Liveness {
   }
 
   setUseBase64 () {
-    this.transmitVia = "b64"
+    this.requestType = "b64"
   }
 
   setUseFormData () {
-    this.transmitVia = "formData"
+    this.requestType = "formData"
   }
 
   setMinBrightness (value) {
@@ -1141,7 +1141,7 @@ class Liveness {
         this.removeLoading()
       }
     }
-    if (this.transmitVia === 'b64') {
+    if (this.requestType === 'b64') {
       await this.sendBase64(xhr)
     } else {
       await this.sendFormData(xhr)
