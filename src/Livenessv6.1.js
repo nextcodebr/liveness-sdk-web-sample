@@ -465,7 +465,6 @@ class Liveness {
         state.counter = 0
         state.inProgress = false
         this.counterNotFoundFace++
-        console.log(this.counterNotFoundFace)
         return
       } else this.counterNotFoundFace = 0
 
@@ -893,10 +892,8 @@ class Liveness {
     confirmButton.addEventListener('click', () => {
       this.counterNotFoundFace = 0
       const modal = document.getElementById('modal-liveness-face-not-found')
-      console.log('1removendo...', modal)
       if (!!modal) {
         modal.remove()
-        console.log('2removendo...')
       }
     })
     document.body.append(modalWrapper)
