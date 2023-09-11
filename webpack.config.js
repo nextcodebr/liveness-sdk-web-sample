@@ -81,6 +81,11 @@ function version (vNumber) {
                 js: '/src/Livenessv6.1.js',
                 path: 'dist/v6.1'
             }
+        case 'v6.2':
+            return {
+                js: '/src/Livenessv6.2.js',
+                path: 'dist/v6.2'
+            }
         
         default:
             return {

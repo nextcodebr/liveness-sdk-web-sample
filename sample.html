@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sample Liveness Web</title>
-    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v6.1/liveness.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v6.2/liveness.js"></script>
     <style>
       * {
         margin: 0;
@@ -17,28 +17,23 @@
       *::after {
         box-sizing: inherit;
       }
-      body {
-        display: grid;
-        align-items: center;
-        justify-content: center;
-      }
     </style>
   </head>
   <body>
     <div id="video-wrapper"></div>
     <script>
       async function start() {
-        const apiKey = "63e637bac95346917c6a9e58:C4oURd7Pk-A-KuZf82kN0ZFZ";
+        const apiKey = "<api-key>";
         const jwt = await getJWT(apiKey);
 
         const config = {
-          isDebug: true,
+          isDebug: false,
           token: jwt,
           faceapiPath:
             "https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/libs/", // caminho para a faceapi e os modelos
           livenessUrlBase: "https://api-homolog.nxcd.app", // endpoint da api liveness
           livenessConfirmEndpoint: "/liveness/v3", // opcional - default: /liveness
-          isShowPreview: false, // exibir um preview da foto que será enviada
+          isShowPreview: true, // exibir um preview da foto que será enviada
           errorCallback: error, // metodo de callback em caso de erro (status !== 200)
           successCallback: success, // metodo de callback em caso de sucesso (status: 200 com isAlive = true ou false)
           brightnessControl: 0, // padrão 108 - controla a tolerancia do brilho para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
@@ -48,29 +43,16 @@
           boxMessageBackgroundColor: "#D02780", // padrão '#D02780' - cor de fundo da caixa de mensagem - pode ser o nome da cor ou hexadecimal
           boxMessageTextColor: "#f3f3f5", // padrão '#f3f3f5' - cor a fonte da caixa de mensagem - pode ser o nome da cor ou hexadecimal
           configEyesBoxHeight: 100, // padrão 100 - setar a altura da caixa dos olhos em pixels (soma ou subtrai da altura padrão)
-          // dimensions: {
-          //   width: 375,
-          //   height: 290
-          // },
         };
         const videoWrapper = document.getElementById("video-wrapper"); // obter elemento na tela onde o liveness será injetado
         window.liveness = new Liveness(videoWrapper, config); // instancia o liveness
-        // window.liveness.setUseBase64(); enviar a foto via base64
-        // window.liveness.setUseFormData(); // enviar a foto via formData (padrão b64)
         window.liveness.start();
-        // window.liveness.stop(); parar o uso da camera
-
-        // window.liveness.setMinBrightness(x:int) para setar o brilho mínimo de tolerancia (quanto menor, mais chances de isAlive=false)
-        // window.liveness.setMinLuminance(x:int) para setar a luminância mínima de tolerancia (quanto menor, mais chances de isAlive=false)
-        // window.liveness.setEyesBoxHeight(250); // para setar a altura da caixa dos olhos em pixels (soma ou subtrai da altura padrão)
-        // window.liveness.setFrameBoxesWidth(0.40, 1.1, .96); // para setar a largura da caixa de detecção dos olhos
-        // window.liveness.toggleDebug(); // habilita/desabilita o debug em tempo real
-        // windows.liveness.setEyesBoxHeight(20)
-        //window.streamLiveness - para acessar a stream fora do SDK
       }
 
       function success(response) {
         console.log("success", response);
+        console.log(response?.data)
+        alert(`Resultado: ${JSON.stringify(response?.data)}`)
       }
       function error(error) {
         console.log("error", error);
