@@ -71,8 +71,9 @@
           }
 
           // video no formato quadrado
-          config.width = 800
-          config.height = 800
+          config.width = 720
+          config.height = 720 / (4/3)
+          config.imageSizeMultiplierFactor = 2
         }
 
         const videoWrapper = document.getElementById("video-wrapper"); // obter elemento na tela onde o liveness será injetado

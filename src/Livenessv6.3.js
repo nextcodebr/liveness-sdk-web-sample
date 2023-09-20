@@ -10,12 +10,18 @@ class Liveness {
     this.videoWrapper = videoWrapper
     this.configFrameBox = config.frameBox
 
+    if (config.imageSizeMultiplierFactor &&
+      config.imageSizeMultiplierFactor !== 0 &&
+        config.imageSizeMultiplierFactor <= 3) {
+      this.imageSizeMultiplierFactor = config.imageSizeMultiplierFactor
+    } else this.imageSizeMultiplierFactor = 1
+
     this.config = {
       width: config.width || this.getFullWidth(),
       height: config.height || this.getFullHeight()
     }
 
-    this.config.heightAspectRatio = this.config.width * ( 4 / 3)
+    this.config.heightAspectRatio = this.config.width * (4 / 3)
     this.config.isDebug = config.isDebug
 
     const cssOrientationStyle = document.createElement('style')
@@ -169,16 +175,15 @@ class Liveness {
 
     this.canvasBackground.width = this.isMobile()
       ? this.video.clientWidth * (window.devicePixelRatio || 2)
-      : this.config.width
+      : this.config.width * this.imageSizeMultiplierFactor
     this.canvasBackground.height = this.isMobile()
       ? this.config.heightAspectRatio * (window.devicePixelRatio || 2)
-      : this.config.height
+      : this.config.height * this.imageSizeMultiplierFactor
     
     if (this.config.dimensions) {
       this.canvasBackground.width = this.config.dimensions.width
       this.canvasBackground.height = this.config.dimensions.height
     }
-
     this.canvasBackground.style.display = 'none'
   }
 
@@ -1159,6 +1164,27 @@ class Liveness {
     this.videoWrapper.insertAdjacentHTML('beforeend', spinner)
   }
 
+  getTips () {
+    const tips = []
+
+    const proportion = this.canvasBackground.width / this.canvasBackground.height
+    if (proportion.toFixed(2) !== '1.33') {
+      tips.push('A imagem não está com a proporção adequada. Tente a proporção 4/3 | Por ex.: width = 720, height = 720 / (4/3)')
+    }
+    if (!this.isMobile() && this.canvasBackground.width <= 320) {
+      tips.push(`O tamanho da imagem está com tamanho e proporção adequados para desktop. (${this.canvasBackground.width } x ${this.canvasBackground.height}) porém não para o liveness. Tente usar na configuração inicial o config.imageSizeMultiplierFactor = 3`)
+    }
+
+    if (!this.isMobile() && this.canvasBackground.width > 320 && this.canvasBackground.width <= 515) {
+      tips.push(`O tamanho da imagem está com tamanho e proporção adequados para desktop. (${this.canvasBackground.width } x ${this.canvasBackground.height}) porém não para o liveness. Tente usar na configuração inicial o config.imageSizeMultiplierFactor = 2`)
+    }
+
+    if (!this.isMobile() && this.canvasBackground.width > 515 && this.canvasBackground.width < 700) {
+      tips.push(`O tamanho da imagem está com tamanho e proporção adequados para desktop. (${this.canvasBackground.width } x ${this.canvasBackground.height}) porém não para o liveness. Tente usar na configuração inicial o config.imageSizeMultiplierFactor = 1.5`)
+    }
+    return tips.join(', ')
+  }
+
   removeLoading () {
     const spinner = document.getElementById('spinner')
     if(spinner) spinner.remove()
@@ -1256,6 +1282,9 @@ class Liveness {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         const response = JSON.parse(xhr?.response)
+
+        if (!response?.data?.isAlive) response.tips = this.getTips()
+
         switch (xhr.status) {
           case 200:
             this.successCallback({...response, base64: this.base64})
