@@ -21,7 +21,9 @@ class Liveness {
       height: config.height || this.getFullHeight()
     }
 
-    this.config.heightAspectRatio = this.config.width * (4 / 3)
+    this.config.heightAspectRatio = this.isMobile()
+     ? this.config.width * (4 / 3)
+     : this.config.width / (4 / 3)
     this.config.isDebug = config.isDebug
 
     const cssOrientationStyle = document.createElement('style')
@@ -175,10 +177,15 @@ class Liveness {
 
     this.canvasBackground.width = this.isMobile()
       ? this.video.clientWidth * (window.devicePixelRatio || 2)
-      : this.config.width * this.scalingFactorForLiveness
+      : this.config.width
     this.canvasBackground.height = this.isMobile()
       ? this.config.heightAspectRatio * (window.devicePixelRatio || 2)
-      : this.config.height * this.scalingFactorForLiveness
+      : this.config.height
+    
+    if (this.scalingFactorForLiveness) {
+      this.canvasBackground.width = this.canvasBackground.width * this.scalingFactorForLiveness
+      this.canvasBackground.height = this.canvasBackground.height * this.scalingFactorForLiveness
+    }
     
     if (this.config.dimensions) {
       this.canvasBackground.width = this.config.dimensions.width
@@ -404,10 +411,13 @@ class Liveness {
     this.canvas.style.top = 0
 
     this.videoWrapper.append(this.canvas)
-    this.faceapi.matchDimensions(this.canvas, {
+    const faceapiConfig = {
       width: this.config.width,
-      height: this.config.height
-    })
+      height: this.config.height < this.config.heightAspectRatio
+        ? this.config.height
+        : this.config.heightAspectRatio
+    }
+    this.faceapi.matchDimensions(this.canvas, faceapiConfig)
     this.boxesWidth = this.responsiveFrameBoxEyesOutterWidth(window.innerWidth)
 
     if (this.configFrameBox) this.boxesWidth = this.configFrameBox
@@ -500,7 +510,9 @@ class Liveness {
 
       const resizedDetections = this.faceapi.resizeResults(detections, {
         width: this.config.width,
-        height: this.config.height
+        height: this.config.height < this.config.heightAspectRatio
+        ? this.config.height
+        : this.config.heightAspectRatio
       })
 
       if (resizedDetections && resizedDetections.expressions && this.shouldCheckNeutralFace) {  
@@ -1336,7 +1348,11 @@ class Liveness {
   }
 
   confirmPicture () {
-    this.sendPictureByXmlRequest()
+    try {
+      this.sendPictureByXmlRequest()
+    } catch (error) {
+      this.errorCallback({ error, base64: this.base64})
+    }
   }
 }
 
