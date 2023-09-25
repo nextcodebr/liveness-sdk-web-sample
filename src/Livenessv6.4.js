@@ -418,7 +418,7 @@ class Liveness {
         ? this.config.height
         : this.config.heightAspectRatio
     }
-    if (this.configFrameBox.height) {
+    if (this.configFrameBox?.height) {
       frameBox.height = this.configFrameBox.height
     }
     frameBox.left = Math.floor((this.canvas.width / 2) - (frameBox.width / 2))
