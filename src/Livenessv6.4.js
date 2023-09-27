@@ -357,8 +357,10 @@ class Liveness {
   }
   createVideoElement () {
     this.videoWrapper.style.position = 'relative'
-    this.videoWrapper.style.width = this.config.width
-    this.videoWrapper.style.height = this.config.height
+    this.videoWrapper.style.width =  this.config.width + 'px'
+    this.videoWrapper.style.height = this.config.height < this.config.heightAspectRatio
+    ? this.config.height + 'px'
+    : this.config.heightAspectRatio + 'px'
 
     this.video = document.createElement('video')
     this.video.style.width = 'inherit'
@@ -1182,20 +1184,22 @@ class Liveness {
   getTips () {
     const tips = []
 
-    const proportion = this.canvasBackground.width / this.canvasBackground.height
-    if (proportion.toFixed(2) !== '1.33') {
+    tips.push(`Tamanho do video: ${this.videoWrapper.style.width} x ${this.videoWrapper.style.height}. Tamanho enviado para a API: ${this.canvasBackground.width}px x ${this.canvasBackground.height}px`)
+
+    const calcAspectRatio = this.canvasBackground.width / this.canvasBackground.height
+    if (calcAspectRatio.toFixed(2) !== '1.33') {
       tips.push('A imagem não está com a proporção adequada. Tente a proporção 4/3 | Por ex.: 640x480, 800x600, 960x720 ou 1024x768')
     }
     if (!this.isMobile() && this.canvasBackground.width <= 320) {
-      tips.push(`O tamanho da imagem está com tamanho e proporção adequados para desktop. (${this.canvasBackground.width } x ${this.canvasBackground.height}) porém não para o liveness. Tente usar na configuração inicial o config.scalingFactorForLiveness = 3`)
+      tips.push(`O tamanho da imagem está com tamanho e proporção adequados para desktop, porém não para o liveness. Tente usar na configuração inicial o config.scalingFactorForLiveness = 3`)
     }
 
     if (!this.isMobile() && this.canvasBackground.width > 320 && this.canvasBackground.width <= 515) {
-      tips.push(`O tamanho da imagem está com tamanho e proporção adequados para desktop. (${this.canvasBackground.width } x ${this.canvasBackground.height}) porém não para o liveness. Tente usar na configuração inicial o config.scalingFactorForLiveness = 2`)
+      tips.push(`O tamanho da imagem está com tamanho e proporção adequados para desktop, porém não para o liveness. Tente usar na configuração inicial o config.scalingFactorForLiveness = 2`)
     }
 
     if (!this.isMobile() && this.canvasBackground.width > 515 && this.canvasBackground.width < 700) {
-      tips.push(`O tamanho da imagem está com tamanho e proporção adequados para desktop. (${this.canvasBackground.width } x ${this.canvasBackground.height}) porém não para o liveness. Tente usar na configuração inicial o config.scalingFactorForLiveness = 1.5`)
+      tips.push(`O tamanho da imagem está com tamanho e proporção adequados para desktop, porém não para o liveness. Tente usar na configuração inicial o config.scalingFactorForLiveness = 1.5`)
     }
     return tips.join(', ')
   }
