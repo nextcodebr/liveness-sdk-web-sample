@@ -297,6 +297,7 @@ class Liveness {
         console.log('Models were loaded')
         this.faceapi = faceapi
         this.setLiveness()
+        alert('libs carregadas')
       })
       .catch(e => alert('error', e))
     }, 100)
