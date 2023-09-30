@@ -77,16 +77,17 @@
 
 
         // Caso queria passar configs via parametros na URL
-        config.frameBox = {
-            eyesInner: parseFloat(params?.eyesInner) || 0.62, // 0.52 padrão -- 0.1 afasta rosto -- 0.99 aproxima rosto
-            eyesOutter: parseFloat(params?.eyesOutter) || 1.1, 
-            box: parseFloat(params?.box) || 0.52
-          }
-        config.ellipseMaskWidth = parseFloat(params?.ellipseMaskWidth) || 2 // 2 padrão -- 1 = largura toda -- 5 = mais achatada
-        config.ellipseMaskHeight = parseFloat(params?.ellipseMaskHeight) || 3.8 // 2.5 padrão -- 2 = altura toda -- 6 = formato bola
-        config.ellipseMaskTop = parseFloat(params?.ellipseMaskTop) || 2.2 // 1.9 padrão -- 1 = desce a elipse -- 4 = sobe elipse
-        config.ellipseMaskLeft = parseFloat(params?.ellipseMaskLeft) || 2 // 2 padrão -- 1 = elipse a esquerda -- 10 = elipse a direita
-
+        if (isMobile()) {
+            config.frameBox = {
+                eyesInner: parseFloat(params?.eyesInner) || 0.62, // 0.52 padrão -- 0.1 afasta rosto -- 0.99 aproxima rosto
+                eyesOutter: parseFloat(params?.eyesOutter) || 1.1, 
+                box: parseFloat(params?.box) || 0.52
+              }
+            config.ellipseMaskWidth = parseFloat(params?.ellipseMaskWidth) || 2 // 2 padrão -- 1 = largura toda -- 5 = mais achatada
+            config.ellipseMaskHeight = parseFloat(params?.ellipseMaskHeight) || 3.8 // 2.5 padrão -- 2 = altura toda -- 6 = formato bola
+            config.ellipseMaskTop = parseFloat(params?.ellipseMaskTop) || 2.2 // 1.9 padrão -- 1 = desce a elipse -- 4 = sobe elipse
+            config.ellipseMaskLeft = parseFloat(params?.ellipseMaskLeft) || 2 // 2 padrão -- 1 = elipse a esquerda -- 10 = elipse a direita
+        }
         const videoWrapper = document.getElementById("video-wrapper"); // obter elemento na tela onde o liveness será injetado
         window.liveness = new Liveness(videoWrapper, config); // instancia o liveness
         window.liveness.start();
@@ -107,6 +108,9 @@
       function isDesktop () {
         const mobileAgents = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
         return !mobileAgents.test(navigator.userAgent)
+      }
+      function isMobile () {
+        return !isDesktop()
       }
 
       function getURLParameters(url) {
@@ -135,7 +139,7 @@
         return token.accessToken;
       }
 
-      
+
       start();
     </script>
   </body>
