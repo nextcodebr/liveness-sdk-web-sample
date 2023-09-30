@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sample Liveness Web</title>
-    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v6.4/liveness.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v6.6/liveness.js"></script>
     <style>
       * {
         margin: 0;
@@ -40,15 +40,15 @@
       async function start() {
         const apiKey = "<api-key>";
         const jwt = await getJWT(apiKey);
-
+        const params = getURLParameters(window.location.href)
         const config = {
-          isDebug: true,
+          isDebug: params?.isDebug === 'true',
           token: jwt,
           faceapiPath:
             "https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/libs/", // caminho para a faceapi e os modelos
           livenessUrlBase: "https://api-homolog.nxcd.app", // endpoint da api liveness
           livenessConfirmEndpoint: "/liveness/v3", // opcional - default: /liveness
-          isShowPreview: false, // exibir um preview da foto que será enviada
+          isShowPreview: true, // exibir um preview da foto que será enviada
           errorCallback: error, // metodo de callback em caso de erro (status !== 200)
           successCallback: success, // metodo de callback em caso de sucesso (status: 200 com isAlive = true ou false)
           brightnessControl: 108, // padrão 108 - controla a tolerancia do brilho para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
@@ -75,13 +75,25 @@
           // config.scalingFactorForLiveness = 2 aumenta o tamanho proporcional da imagem que será enviada para a API
         }
 
+
+        // Caso queria passar configs via parametros na URL
+        config.frameBox = {
+            eyesInner: parseFloat(params?.eyesInner) || 0.62, // 0.52 padrão -- 0.1 afasta rosto -- 0.99 aproxima rosto
+            eyesOutter: parseFloat(params?.eyesOutter) || 1.1, 
+            box: parseFloat(params?.box) || 0.52
+          }
+        config.ellipseMaskWidth = parseFloat(params?.ellipseMaskWidth) || 2 // 2 padrão -- 1 = largura toda -- 5 = mais achatada
+        config.ellipseMaskHeight = parseFloat(params?.ellipseMaskHeight) || 3.8 // 2.5 padrão -- 2 = altura toda -- 6 = formato bola
+        config.ellipseMaskTop = parseFloat(params?.ellipseMaskTop) || 2.2 // 1.9 padrão -- 1 = desce a elipse -- 4 = sobe elipse
+        config.ellipseMaskLeft = parseFloat(params?.ellipseMaskLeft) || 2 // 2 padrão -- 1 = elipse a esquerda -- 10 = elipse a direita
+
         const videoWrapper = document.getElementById("video-wrapper"); // obter elemento na tela onde o liveness será injetado
         window.liveness = new Liveness(videoWrapper, config); // instancia o liveness
         window.liveness.start();
       }
 
       function success(response) {
-        console.log("success", response);
+        // console.log("success", response);
         console.log(response?.data)
         alert(`Resultado: ${JSON.stringify(response?.data)}`)
       }
@@ -97,6 +109,18 @@
         return !mobileAgents.test(navigator.userAgent)
       }
 
+      function getURLParameters(url) {
+        const urlObject = new URL(url);
+        const searchParams = urlObject.searchParams;
+        const parameters = {};
+
+        searchParams.forEach((value, key) => {
+          parameters[key] = value;
+        })
+
+        return parameters
+      }
+
       async function getJWT(apiKey) {
         const requestOptions = {
           method: "POST",
@@ -110,6 +134,8 @@
         const token = await response.json();
         return token.accessToken;
       }
+
+      
       start();
     </script>
   </body>
