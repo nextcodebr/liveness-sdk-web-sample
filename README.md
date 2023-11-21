@@ -8,8 +8,8 @@ Detecção e padronização de fotos da face
 
 
 ### Ambientes:
-- **Desenvolvimento**: `HTTP` só é possível rodar a aplicação em `localhost`. Exemplo: `http://localhost:5500`
-- **Produção**: obrigatório ser `HTTPS` devido às restrições dos navegadores
+- **Desenvolvimento**: **`HTTP`** só é possível rodar a aplicação em `localhost`. Exemplo: `http://localhost:5500`
+- **Produção**: **`OBRIGATÓRIO`** ser `HTTPS` devido às restrições dos navegadores
 
 ### Procedimentos de utilização:
 Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-sdk-web-sample/blob/master/sample.html)
@@ -23,39 +23,117 @@ Exemplo de utilização em [sample.html](https://github.com/nextcodebr/liveness-
 5. Definir qual elemento da DOM terá a câmera injetada pela biblioteca 
 6. Fazer demais configurações:
 
-`const configuration = {
+```javascript
+  const config = {
+    isDebug: true // (opcional) - padrão false,
+    token: jwt, // (obrigatório),
+    faceapiPath: "/libs", // caminho para a faceapi e modelos baixados
+    livenessUrlBase: "https://api-homolog.nxcd.app", // endpoint da api liveness - você pode setar a url base do seu backend
+    livenessConfirmEndpoint: "", // opcional - padrão: /liveness - você pode setar o recurso do liveness em seu backend
+    isShowPreview: true | false, // exibir um preview da foto que será enviada
+    errorCallback: error, // metodo de callback em caso de erro na requisição
+    successCallback: success, // metodo de callback em caso de sucesso (status: 200 com isAlive = true ou false)
+    brightnessControl: 108, // somente desktop - padrão 108 - controla a tolerancia do brilho para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
+    luminanceControl: 23, // somente desktop - padrão 23 - controla a tolerancia da luminância para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
+    ellipseStrokeStyle: "#D02780", // padrão '#D02780' - cor da elipse que encaixa o rosto - pode ser o nome da cor ou hexadecimal
+    activatedEllipseStrokeStyle: "#46E3C3", // padrão '#46E3C3' - cor da elipse ao detectar o rosto - pode ser o nome da cor ou hexadecimal
+    boxMessageBackgroundColor: "#D02780", // padrão '#D02780' - cor de fundo da caixa de mensagem - pode ser o nome da cor ou hexadecimal
+    boxMessageTextColor: "#f3f3f5", // padrão '#f3f3f5' - cor a fonte da caixa de mensagem - pode ser o nome da cor ou hexadecimal
+    cameraPermissionErrorCallback: permissionErrorFunction // permite fazer a tratativa adequeada caso o usuário não tenha dado a permissão para usar a câmera
+  };
+```
 
-          width: 720, // largura de exibição da câmera
-          isDebug: false,
-          token: jwt,
-          faceapiPath: "/libs", // caminho para a faceapi e modelos baixados
-          livenessUrlBase: "https://api-homolog.nxcd.app", // endpoint da api liveness
-          livenessConfirmEndpoint: "", // opcional - default: /liveness
-          isShowPreview: true, // exibir um preview da foto que será enviada
-          errorCallback: error, // metodo de callback em caso de erro
-          successCallback: success, // metodo de callback em caso de sucesso,
-          brightnessControl: 108, // padrão 108 - controla a tolerancia do brilho para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
-          luminanceControl: 23, // padrão 23 - controla a tolerancia da luminância para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
-          ellipseStrokeStyle: "#D02780", // padrão '#D02780' - cor da elipse que encaixa o rosto - pode ser o nome da cor ou hexadecimal
-          activatedEllipseStrokeStyle: "#46E3C3", // padrão '#46E3C3' - cor da elipse ao detectar o rosto - pode ser o nome da cor ou hexadecimal
-          boxMessageBackgroundColor: "#D02780", // padrão '#D02780' - cor de fundo da caixa de mensagem - pode ser o nome da cor ou hexadecimal
-          boxMessageTextColor: "#f3f3f5", // padrão '#f3f3f5' - cor a fonte da caixa de mensagem - pode ser o nome da cor ou hexadecimal
-          configEyesBoxHeight: 100, // padrão 100 - setar a altura da caixa dos olhos em pixels (soma ou subtrai da altura padrão)
-        };`
-`window.liveness.stop(); parar o uso da camera`
 
-`window.liveness.setMinBrightness(x) para setar o brilho mínimo de tolerancia (quanto menor, mais chances de isAlive=false)`
+Após a configuração, instanciar e injetar o Liveness:
+```javascript
+  const videoWrapper = document.getElementById("video-wrapper");
+  const liveness = new Liveness(videoWrapper, config);
+```
 
-`window.liveness.setMinLuminance(x) para setar a luminância mínima de tolerancia (quanto menor, mais chances de isAlive=false)`
+Iniciar o uso da câmera:
 
-`window.liveness.setEyesBoxHeight(200); para setar a altura da caixa dos olhos em pixels (soma ou subtrai da altura padrão)`
+```javascript
+  liveness.start();
+```
 
-Após a configuração, instanciar o Liveness:
+Parar o uso da câmera:
 
-`const videoWrapper = document.getElementById("video-wrapper");`
+```javascript
+  liveness.stop();
+```
 
-`const liveness = new Liveness(videoWrapper, config);`
 
-Iniciar:
+# Release notes
+### 6.8.1
+1. Adicionadas novas dicas de ajustes (tips) quando `isAlive === false`, aconteça algum problema de token ou erro no servidor em `response.tips`;
 
-`liveness.start();`
+### 6.8
+1. Redefinição de mensagens na Caixa de Mensagens de aviso para o usuário;
+2. Implementação e melhoria de acessibilidade (role=alert, aria-label, modal de carregamento acessível, alerta de foto tirada para leitores de tela e etc);
+
+### 6.7
+1. Possibilidade de escolher entre a câmera traseira e a frontal programaticamente, visando facilitar acessibilidade;
+```javascript
+liveness.setMobileFaceCam();
+// ou
+liveness.setMobileEnvironmentCam();
+``` 
+
+### 6.6
+1. Possibilidade de configurar altura, largura e topo da elipse da máscara com as seguintes opções nas configurações iniciais, permitindo renderizar de maneiras diferentes em celular ou desktop:
+```typescript
+config.ellipseMaskWidth: number;
+config.ellipseMaskHeight: number;
+config.ellipseMaskTop: number;
+config.ellipseMaskLeft: number;
+``` 
+* Exemplo de implementação em `sample.html`;
+
+### 6.4
+1. Possibilidade de aumentar em até 3 vezes o tamanho da foto que será enviada à API do Liveness com a seguinte opção na configuração inicial, melhorando a qualidade da foto para análise:
+```typescript
+config.scalingFactorForLiveness: number // (de 1 a 3)
+``` 
+* Exemplo de implementação em `sample.html`;
+
+2. Ajuste automatico no aspect ratio da foto padrão para celulares;
+3. Tratamento de exception quando feita requisição para a API;
+
+### 6.3
+1. Possibilidade de tratamento de erro de permissão de câmera com a função de callback com a seguinte opção na configuração inicial:
+```typescript
+config.cameraPermissionErrorCallback: function
+``` 
+* Exemplo de implementação em `sample.html`;
+
+2. Implementação das dicas `response.tips` com o que pode ter acontecido de errado no retorno da requisição feita para a API e `isAlive=false`;
+
+### 6.2
+1. Possibilidade de configurar se o SDK deve detectar "Face Neutra" ou não na Caixa de Mensagens de aviso para o usuário, através da seguinte opção na configuração inicial: 
+```typescript
+config.shouldCheckNeutralFace: boolean
+``` 
+2. Ajustes de exibição em celulares fazendo com que o vídeo seja renderizado na largura total da tela para evitar distorções e `isAlive=false`;
+3. Ajustes na estilização de popups para melhorar a UX;
+
+### 6.1
+1. Implementação do popup de "Face não encontrada" e prazo para checar se a face foi detectada ou não antes de exibí-lo ao usuário com as seguintes opções na configuração inicial:
+```typescript
+config.timeToDetectFace: number // milisegundos
+config.showNotFoundModal: boolean // false
+``` 
+
+2. Possibilidade de configurar o tempo de atualização da captura de faces (loop onde o SDK fica checando se a face está posicionada corretamente)
+```typescript
+config.facetimeInterval: number // 150 milisegundos 
+``` 
+
+### 5.9
+1. Possibilidade de selecionar se o envio para a API deve ser via `base64` ou `formData` (padrão base64) através do metodos
+```javascript
+liveness.setUseBase64()
+// ou
+liveness.setUseFormData()
+``` 
+2. Realiza a checagem ativa e exibe um popup de aviso caso o dispositivo fique offline no momento de tirar a selfie;
+3. exibe o progresso do upload da foto para a API, fornecendo feedback para o usuário.
