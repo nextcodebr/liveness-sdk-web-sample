@@ -64,6 +64,11 @@ Parar o uso da câmera:
 
 
 # Release notes
+### 6.8.2
+1. Reconhecimento de mais poses: face abaixo da zona da foto, acima, à direita e à esquerda;
+2. Refatoração e melhoramentos nos métodos de detecção;
+3. Ajustes de acessibilidade.
+
 ### 6.8.1
 1. Adicionadas novas dicas de ajustes (tips) quando `isAlive === false`, aconteça algum problema de token ou erro no servidor em `response.tips`;
 
