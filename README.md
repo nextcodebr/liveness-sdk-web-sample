@@ -64,6 +64,10 @@ Parar o uso da câmera:
 
 
 # Release notes
+### 6.8.3
+1. Interrupção de leitura de câmera enquanto faz upload da imagem;
+2. Ajuste da frase de rosto centralizado na caixa de mensagens e também para leitores de tela;
+
 ### 6.8.2
 1. Reconhecimento de mais poses: face abaixo da zona da foto, acima, à direita e à esquerda;
 2. Refatoração e melhoramentos nos métodos de detecção;
