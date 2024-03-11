@@ -1520,7 +1520,7 @@ class Liveness {
     xhr.setRequestHeader('Authorization', `Bearer ${this.token}`)
 
     xhr.upload.addEventListener('loadstart', (e) => {
-      this.resetLiveness()
+      this.stop()
       this.setLoadingAccessibilityProgress()
     })
 
