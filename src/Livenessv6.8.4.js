@@ -647,38 +647,6 @@ class Liveness {
             state.inProgress = false
             return
           }
-
-          if (this.isFaceLeft(centerEyes, positions)) {
-            this.blockMaskMessage = this.boxMessages.moveFaceRight
-            this.blockMask(canvasPosition, frameBox.left, frameBox.top, frameBox.height, frameBox.width)
-            state.counter = 0
-            state.inProgress = false
-            return
-          }
-  
-          if (this.isFaceRight(centerEyes, positions)) {
-            this.blockMaskMessage = this.boxMessages.moveFaceLeft
-            this.blockMask(canvasPosition, frameBox.left, frameBox.top, frameBox.height, frameBox.width)
-            state.counter = 0
-            state.inProgress = false
-            return
-          }
-
-          if (this.isFaceAbove(leftEye.meanPosition, rightEye.meanPosition, positions)) {
-            this.blockMaskMessage = this.boxMessages.moveFaceDown
-            this.blockMask(canvasPosition, frameBox.left, frameBox.top, frameBox.height, frameBox.width)
-            state.counter = 0
-            state.inProgress = false
-            return
-        }
-  
-          if (this.isFaceBelow(leftEye.meanPosition, rightEye.meanPosition, positions)) {
-              this.blockMaskMessage = this.boxMessages.moveFaceUp
-              this.blockMask(canvasPosition, frameBox.left, frameBox.top, frameBox.height, frameBox.width)
-              state.counter = 0
-              state.inProgress = false
-              return
-          }
   
           if (this.isFaceAway(leftEye.meanPosition, rightEye.meanPosition, positions)) {
               this.blockMaskMessage = this.boxMessages.moveFaceCloser
@@ -703,9 +671,48 @@ class Liveness {
             state.inProgress = false
             return
           }
+          if (!this.isInsideFramebox(leftEye.meanPosition, rightEye.meanPosition, positions)) {
+            this.blockMaskMessage = this.boxMessages.positionFaceWithinFrame
+            this.blockMask(canvasPosition, frameBox.left, frameBox.top, frameBox.height, frameBox.width)
+            state.counter = 0
+            state.inProgress = false
+            return
+          }
         }
 
-        if (!this.isInsideFramebox(leftEye.meanPosition, rightEye.meanPosition, positions)) {
+        if (this.isFaceLeft(centerEyes, positions)) {
+          this.blockMaskMessage = this.boxMessages.moveFaceRight
+          this.blockMask(canvasPosition, frameBox.left, frameBox.top, frameBox.height, frameBox.width)
+          state.counter = 0
+          state.inProgress = false
+          return
+        }
+
+        if (this.isFaceRight(centerEyes, positions)) {
+          this.blockMaskMessage = this.boxMessages.moveFaceLeft
+          this.blockMask(canvasPosition, frameBox.left, frameBox.top, frameBox.height, frameBox.width)
+          state.counter = 0
+          state.inProgress = false
+          return
+        }
+
+        if (this.isFaceAbove(leftEye.meanPosition, rightEye.meanPosition, positions)) {
+          this.blockMaskMessage = this.boxMessages.moveFaceDown
+          this.blockMask(canvasPosition, frameBox.left, frameBox.top, frameBox.height, frameBox.width)
+          state.counter = 0
+          state.inProgress = false
+          return
+      }
+
+        if (this.isFaceBelow(leftEye.meanPosition, rightEye.meanPosition, positions)) {
+            this.blockMaskMessage = this.boxMessages.moveFaceUp
+            this.blockMask(canvasPosition, frameBox.left, frameBox.top, frameBox.height, frameBox.width)
+            state.counter = 0
+            state.inProgress = false
+            return
+        }
+
+        if (!this.isInsideEllipse(leftEye.meanPosition, rightEye.meanPosition)) {
           this.blockMaskMessage = this.boxMessages.positionFaceWithinFrame
           this.blockMask(canvasPosition, frameBox.left, frameBox.top, frameBox.height, frameBox.width)
           state.counter = 0
@@ -714,7 +721,7 @@ class Liveness {
         }
 
         if (this.ellipseMaskLineWidth < 6) this.ellipseMaskLineWidth *= 2
-
+        
         this.activateEllipseMask()
     
         state.counter += 1
@@ -1020,6 +1027,23 @@ class Liveness {
       && rightEye[0] > (positions.eyesInnerLeft + positions.eyesInnerWidth))
     const rightOk = (leftEye[0] > positions.eyesOutterLeft && leftEye[0] < positions.eyesInnerLeft)
     return !(leftOk && rightOk)
+  }
+
+  isInsideEllipse(leftEye, rightEye) {
+    return this.isLeftEyeInsideEllipse(leftEye) &&
+      this.isRightEyeInsideEllipse(rightEye)
+  }
+
+  isLeftEyeInsideEllipse(leftEye) {
+    const isTopIn = leftEye[1] > (this.ellipseMaskTop - this.ellipseMaskHeight) && leftEye[1] < (this.ellipseMaskTop + (this.ellipseMaskTop - this.ellipseMaskHeight))
+    const isLeftOut = leftEye[0] < this.ellipseMaskLeft && leftEye[0] > (this.ellipseMaskLeft- (this.ellipseMaskWidth / 2))
+    return isTopIn && !isLeftOut
+  }
+
+  isRightEyeInsideEllipse(rightEye, positions) {
+    const isTopIn = rightEye[1] > (this.ellipseMaskTop - this.ellipseMaskHeight) && rightEye[1] < (this.ellipseMaskTop + (this.ellipseMaskTop - this.ellipseMaskHeight))
+    const isLeftOut = rightEye[0] < this.ellipseMaskLeft && rightEye[0] > (this.ellipseMaskLeft - (this.ellipseMaskWidth * 4))
+    return isTopIn && !isLeftOut
   }
 
   blockMask (canvasPosition, left, top, height, width) {
