@@ -64,6 +64,10 @@ Parar o uso da câmera:
 
 
 # Release notes
+### 6.8.4
+1. Implementação de contagem regressiva de 3 segundos opcional antes de tirar a selfie + acessibilidade;
+2. Ignora validações de posicionamento de faces, considerando somente estar encaixada no molde;
+
 ### 6.8.3
 1. Interrupção de leitura de câmera enquanto faz upload da imagem;
 2. Ajuste da frase de rosto centralizado na caixa de mensagens e também para leitores de tela;

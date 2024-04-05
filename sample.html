@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sample Liveness Web</title>
-    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v6.8.2/liveness.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v6.8.4/liveness.js"></script>
     <style>
       * {
         margin: 0;
@@ -38,6 +38,7 @@
     </div>
     <script>
       async function start() {
+        // * ATENÇÃO * a sua apikey não deve ficar no frontend. A autenticação deve ser feita somente no backend
         const apiKey = "<api-key>";
         const jwt = await getJWT(apiKey);
         const params = getURLParameters(window.location.href)
@@ -57,7 +58,9 @@
           activatedEllipseStrokeStyle: "#46E3C3", // padrão '#46E3C3' - cor da elipse ao detectar o rosto - pode ser o nome da cor ou hexadecimal
           boxMessageBackgroundColor: "#D02780", // padrão '#D02780' - cor de fundo da caixa de mensagem - pode ser o nome da cor ou hexadecimal
           boxMessageTextColor: "#f3f3f5", // padrão '#f3f3f5' - cor a fonte da caixa de mensagem - pode ser o nome da cor ou hexadecimal
-          cameraPermissionErrorCallback
+          cameraPermissionErrorCallback,
+          ignoreFaceRules: false, // ignora validações de posicionamento de face, considera somente estar encaixada na elipse
+          activateCountdown: false // ativa contagem regressiva de 3 segundos antes de tirar a selfie
         };
 
         if (isDesktop()) {
