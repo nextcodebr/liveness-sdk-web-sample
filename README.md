@@ -64,6 +64,11 @@ Parar o uso da câmera:
 
 
 # Release notes
+### 6.8.5
+1. Melhoramentos nas validações de face;
+2. Validações disponíveis `[background, faceLeft, faceRight, insideFrameBox, faceAbove, faceBelow, faceAway, faceCloser, faceNotBetweenEyesBox, notInsideEllipe]`
+2. Ajustes canvas de debug;
+
 ### 6.8.4
 1. Implementação de contagem regressiva de 3 segundos opcional antes de tirar a selfie + acessibilidade;
 2. Ignora validações de posicionamento de faces, considerando somente estar encaixada no molde;
