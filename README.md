@@ -62,12 +62,21 @@ Parar o uso da câmera:
   liveness.stop();
 ```
 
-
 # Release notes
+
+### 6.8.6
+1. Adicionados hooks para serem executados em determinados momentos e que podem ser configurados na inicialização;
+2. `onRequestUploadStart` quando inicia o upload da foto da face; `onRequestUploadEnd` quando o upload terminar;
+`onRequestOpened` quando a conexão XMLHttpRequest for aberta; `onRequestLoading` quando estiver recebendo dados;
+`onRequestUnsent` quando XMLHttpRequest foi criado mas ainda não enviado; `onRequestDone` executado quando a requisição
+finalizar, independente do resultado.
+3. `onRequestDone` é executado após o `successCallback`. Quando ele for setado, a lógica de restartar o SDK, por exemplo,
+caso dê `isAlive=false` fica a cargo do metodo externo.
+
 ### 6.8.5
 1. Melhoramentos nas validações de face;
 2. Validações disponíveis `[background, faceLeft, faceRight, insideFrameBox, faceAbove, faceBelow, faceAway, faceCloser, faceNotBetweenEyesBox, notInsideEllipe]`
-2. Ajustes canvas de debug;
+3. Ajustes canvas de debug;
 
 ### 6.8.4
 1. Implementação de contagem regressiva de 3 segundos opcional antes de tirar a selfie + acessibilidade;
