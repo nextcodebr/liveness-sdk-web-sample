@@ -64,6 +64,9 @@ Parar o uso da câmera:
 
 # Release notes
 
+### 6.8.7
+1. Eventos javascript implementados `onpreviewopen`, `onpreviewclose`, `onuploadstart`, `onuploadend`
+
 ### 6.8.6
 1. Adicionados hooks para serem executados em determinados momentos e que podem ser configurados na inicialização;
 2. `onRequestUploadStart` quando inicia o upload da foto da face; `onRequestUploadEnd` quando o upload terminar;
