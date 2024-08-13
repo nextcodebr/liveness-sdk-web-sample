@@ -99,9 +99,14 @@ class Liveness {
       'notInsideEllipse'
     ]
     this.validations = config.validations || this.validations
+    this.shouldAutoSendToApi = true
+    if (config.shouldAutoSendToApi !== undefined) {
+      this.shouldAutoSendToApi = config.shouldAutoSendToApi
+    }
     this.createCustomEvents()
   }
   createCustomEvents () {
+    this.onPhotoTakenEvent = new CustomEvent('onphototaken')
     this.onPreviewOpenEvent = new CustomEvent('onpreviewopen')
     this.onPreviewCloseEvent = new CustomEvent('onpreviewclose')
     this.onUploadStart = new CustomEvent('onuploadstart')
@@ -1149,6 +1154,7 @@ class Liveness {
     const pictureData = ctx.getImageData(0,0,this.canvasBackground.width,this.canvasBackground.height)
     ctx.putImageData(pictureData, 0, 0)
     this.base64 = this.canvasBackground.toDataURL('image/png')
+    window.dispatchEvent(this.onPhotoTakenEvent)
 
     setTimeout(() => {
       this.removeFlashMask()
@@ -1771,6 +1777,13 @@ class Liveness {
   }
 
   confirmPicture () {
+    try {
+      if (this.shouldAutoSendToApi) this.sendPictureByXmlRequest()
+    } catch (error) {
+      this.errorCallback({ error, base64: this.base64})
+    }
+  }
+  sendToApi () {
     try {
       this.sendPictureByXmlRequest()
     } catch (error) {

@@ -65,7 +65,9 @@ Parar o uso da câmera:
 # Release notes
 
 ### 6.8.7
-1. Eventos javascript implementados `onpreviewopen`, `onpreviewclose`, `onuploadstart`, `onuploadend`
+1. Eventos javascript implementados `onpreviewopen`, `onpreviewclose`, `onuploadstart`, `onuploadend` e `onphototaken`
+2. Adicionada flag `shouldAutoSendToApi` com default == true. Determina se assim que tirar a foto deve enviar para a API automaticamente. Pode
+ser combinada com o evento `onphototaken` pra a notificação de que a foto foi tirada e depois chamando o metodo `liveness.sendToApi()` para concluir (ou resetar o liveness com resetLiveness())
 
 ### 6.8.6
 1. Adicionados hooks para serem executados em determinados momentos e que podem ser configurados na inicialização;

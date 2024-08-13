@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sample Liveness Web</title>
-    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v6.8.7/liveness.js"></script>
+    <script src="dist/v6.8.7/liveness.js"></script>
     <style>
       * {
         margin: 0;
@@ -49,7 +49,7 @@
             "https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/libs/", // caminho para a faceapi e os modelos
           livenessUrlBase: "https://api.nxcd.app", // endpoint da api liveness
           livenessConfirmEndpoint: "/liveness/v3", // opcional - default: /liveness
-          isShowPreview: true, // exibir um preview da foto que será enviada
+          isShowPreview: false, // exibir um preview da foto que será enviada
           errorCallback: error, // metodo de callback em caso de erro (status !== 200)
           successCallback: success, // metodo de callback em caso de sucesso (status: 200 com isAlive = true ou false)
           brightnessControl: 108, // padrão 108 - controla a tolerancia do brilho para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
@@ -60,14 +60,11 @@
           boxMessageTextColor: "#f3f3f5", // padrão '#f3f3f5' - cor a fonte da caixa de mensagem - pode ser o nome da cor ou hexadecimal
           cameraPermissionErrorCallback,
           ignoreFaceRules: false, // ignora validações de posicionamento de face, considera somente estar encaixada na elipse
-          activateCountdown: false // ativa contagem regressiva de 3 segundos antes de tirar a selfie
+          activateCountdown: false, // ativa contagem regressiva de 3 segundos antes de tirar a selfie
+          shouldAutoSendToApi: false
+          // ** variavel *shouldAutoSendToApi: false* interrompe o processamento do liveness enquanto o liveness não for resetado ou a foto não for enviada
+          // através do metodo sendToApi()
         };
-
-        // exemplo para listeners dos eventos customizados
-        window.addEventListener('onpreviewopen', e => console.log('onpreviewopen', e))
-        window.addEventListener('onpreviewclose', e => console.log('onpreviewclose', e))
-        window.addEventListener('onuploadstart', e => console.log('onuploadstart', e))
-        window.addEventListener('onuploadend', e => console.log('onuploadend', e))
 
         if (isDesktop()) {
           config.frameBox = {
@@ -100,6 +97,23 @@
         const videoWrapper = document.getElementById("video-wrapper"); // obter elemento na tela onde o liveness será injetado
         window.liveness = new Liveness(videoWrapper, config); // instancia o liveness
         window.liveness.start();
+        // exemplo para listeners dos eventos customizados
+        window.addEventListener('onpreviewopen', e => console.log('onpreviewopen', window.liveness.base64))
+        window.addEventListener('onpreviewclose', e => console.log('onpreviewclose', e))
+        window.addEventListener('onuploadstart', e => console.log('onuploadstart', e))
+        window.addEventListener('onuploadend', e => console.log('onuploadend', e))
+
+        window.addEventListener('onphototaken', e => {
+          console.log('onphototaken', e);
+
+          // Exemplo: envia a foto para a API 5 segundos depois de ela ter sido tirada (combinada com o shouldAutoSendToApi = false)
+          // setTimeout(() => { window.liveness.sendToApi() }, 5000)
+
+          // Exemplo: reseta o liveness 5 segundos depois de a foto ter sido tirada (combinada com o shouldAutoSendToApi = false)
+          // setTimeout(() => { window.liveness.resetLiveness() }, 5000)
+        })
+
+        
       }
 
       // function changeToFaceCamera () {
