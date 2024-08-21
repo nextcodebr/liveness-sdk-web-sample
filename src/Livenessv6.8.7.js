@@ -185,6 +185,8 @@ class Liveness {
     this.video.pause()
     const tracks = this.stream.getTracks()
     tracks.forEach(track => track.stop())
+    if (this.video.src) this.video.src = null
+    if (this.video.srcObject) this.video.srcObject = null
     clearInterval(this.timer)
     clearInterval(this.timerBackground)
   }
