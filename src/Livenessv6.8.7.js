@@ -443,8 +443,7 @@ class Liveness {
     return this
   }
   resetVideoWrapper () {
-    const videoWrapper = document.getElementById('video-wrapper')
-    if(videoWrapper) videoWrapper.innerHTML = ''
+    if(this.videoWrapper) this.videoWrapper.innerHTML = ''
   }
 
   removeCanvas () {
@@ -1794,4 +1793,4 @@ class Liveness {
   }
 }
 
-module.exports = Liveness
+// module.exports = Liveness
