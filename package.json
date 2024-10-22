@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "buildv6.8.7": "webpack --config=webpack.config.js --env version=v6.8.7"
+    "buildv6.8.7": "webpack --config=webpack.config.js --env version=v6.8.7",
+    "buildv6.8.8": "webpack --config=webpack.config.js --env version=v6.8.8"
   },
   "repository": {
     "type": "git",

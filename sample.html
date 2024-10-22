@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sample Liveness Web</title>
-    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v6.8.7/liveness.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/dist/v6.8.8/liveness.js"></script>
     <style>
       * {
         margin: 0;
@@ -47,9 +47,9 @@
           token: jwt,
           faceapiPath:
             "https://cdn.jsdelivr.net/gh/nextcodebr/liveness-sdk-web-sample/libs/", // caminho para a faceapi e os modelos
-          livenessUrlBase: "https://api.nxcd.app", // endpoint da api liveness
+          livenessUrlBase: "https://api-homolog.nxcd.app", // endpoint da api liveness
           livenessConfirmEndpoint: "/liveness/v3", // opcional - default: /liveness
-          isShowPreview: false, // exibir um preview da foto que será enviada
+          isShowPreview: true, // exibir um preview da foto que será enviada
           errorCallback: error, // metodo de callback em caso de erro (status !== 200)
           successCallback: success, // metodo de callback em caso de sucesso (status: 200 com isAlive = true ou false)
           brightnessControl: 108, // padrão 108 - controla a tolerancia do brilho para submeter a selfie (quanto menor o valor, maior a tolerancia e possibilidade de isAlive=false)
@@ -61,7 +61,41 @@
           cameraPermissionErrorCallback,
           ignoreFaceRules: false, // ignora validações de posicionamento de face, considera somente estar encaixada na elipse
           activateCountdown: false, // ativa contagem regressiva de 3 segundos antes de tirar a selfie
-          shouldAutoSendToApi: false
+          language: 'pt', // idioma geral do SDK com padrão portugues. é possível utilizar por padrão 'en' para inglês e 'es' para espanhol. No README, explicamos como adicionar outros idiomas
+          // para adicionar outros idiomas, basta adicionar o idioma desejado no objeto newLanguages e suas traduções. É necessário seguir a estrutura abaixo:
+          // newLanguages: {
+          //   pt: {
+          //     unmatchedFace: 'Face não encaixada',
+          //     keepNeutralFace: 'Mantenha expressão neutra',
+          //     centerYourFace: 'Alinhe seu rosto à tela',
+          //     darkEnvironment: 'O ambiente está escuro',
+          //     positionFaceWithinFrame: 'Posicione seu rosto dentro da moldura',
+          //     moveFaceAway: 'Afaste seu rosto',
+          //     moveFaceCloser: 'Aproxime seu rosto',
+          //     moveFaceDown: 'Desça a cabeça para encaixar na moldura',
+          //     moveFaceUp: 'Suba a cabeça para encaixar na moldura',
+          //     moveFaceRight: 'Mova a cabeça para a direita',
+          //     moveFaceLeft: 'Mova a cabeça para a esquerda',
+          //     mediaNotImplemented: 'getUserMedia não implementado nesse browser',
+          //     videoAriaLabel: 'Vídeo da face - Aproxime o rosto em posição de selfie e afaste-o lentamente para enquadrar',
+          //     countdownAriaText: 'contagem regressiva ##counter##',
+          //     countdownText: 'Evite se movimentar agora',
+          //     tiltedFace: 'Seu rosto está inclinado, deixe-o alinhado à tela',
+          //     faceNotFoundModalTitle: 'Atenção',
+          //     faceNotFoundModalDescription: 'Não foi possível realizar a captura, tente novamente',
+          //     faceNotFoundModalTopic1: 'Em um fundo neutro, de preferência com uma parede clara',
+          //     faceNotFoundModalTopic2: 'Em um ambiente com iluminação neutra (nem muito claro nem muito escuro)',
+          //     faceNotFoundModalTopic3: 'Removendo os adereços que prejudiquem a visualização da sua face, como cachecol, tocas, bonés e fones',
+          //     modalAriaPhotoTakenSuccessfully: 'Foto tirada com sucesso',
+          //     modalConfirmButtonText: 'Confirmar',
+          //     modalCancelButtonText: 'Cancelar',
+          //     progressWaitingAccessilityText: 'Aguarde enquanto estamos carregando e analisando a sua selfie',
+          //     finishedUploadHTMLText: '<strong>Aguarde enquanto estamos <br /> analisando a sua selfie</strong>',
+          //     uploadInProgressHTMLText: '<strong>Fazendo upload da selfie...<br /> (##progress##% enviados)</strong>',
+          //     noNetworkHTMLText: 'Estamos sem conexão<br />com a internet',
+          //   },
+          // }
+          // shouldAutoSendToApi: false
           // ** variavel *shouldAutoSendToApi: false* interrompe o processamento do liveness enquanto a foto não for enviada ou o liveness resetado
         };
 

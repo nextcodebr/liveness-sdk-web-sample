@@ -64,6 +64,13 @@ Parar o uso da câmera:
 
 # Release notes
 
+### 6.8.8
+1. Ajustes na estilização da caixa de mensagem, mensagem de upload e análise
+2. Implementação dos idiomas Português (pt), Inglês (en) e Espanhol (es)
+3. Permite adicionar outros idiomas com o exemplo no arquivo sample.html
+4. É possível atualizar as mensagens da propriedade countdownAriaText com ##counter## e uploadInProgressHTMLText com ##progress## que serão substituídos pelo contador e o progresso respectivamente
+5. As propriedades finishedUploadHTMLText, uploadInProgressHTMLText e noNetworkHTMLText permitem tags HTML
+
 ### 6.8.7
 1. Eventos javascript implementados `onpreviewopen`, `onpreviewclose`, `onuploadstart`, `onuploadend` e `onphototaken`
 2. Adicionada flag `shouldAutoSendToApi` com default == true. Determina se assim que tirar a foto deve enviar para a API automaticamente. Pode
