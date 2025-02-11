@@ -124,7 +124,7 @@ class Liveness {
         noNetworkHTMLText: 'Estamos sem conexão<br />com a internet',
       },
       en: {
-        unmatchedFace: 'Face not matched',
+        unmatchedFace: 'Face out of frame',
         keepNeutralFace: 'Keep neutral face',
         centerYourFace: 'Align your face to the screen',
         darkEnvironment: 'The environment is dark',
@@ -154,7 +154,7 @@ class Liveness {
         noNetworkHTMLText: 'We are offline',
       },
       es: {
-        unmatchedFace: 'Face no encajada',
+        unmatchedFace: 'Rostro fuera del círculo',
         keepNeutralFace: 'Mantenga la cara neutra',
         centerYourFace: 'Centre su rostro en la pantalla',
         darkEnvironment: 'El entorno es oscuro',
