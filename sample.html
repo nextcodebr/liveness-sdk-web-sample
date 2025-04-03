@@ -196,7 +196,7 @@
             Authorization: `ApiKey ${apiKey}`,
           },
         };
-        const endpoint = "https://api.nxcd.app/auth-jwt";
+        const endpoint = "https://api-homolog.nxcd.app/auth-jwt";
         const response = await fetch(endpoint, requestOptions);
         const token = await response.json();
         return token.accessToken;
